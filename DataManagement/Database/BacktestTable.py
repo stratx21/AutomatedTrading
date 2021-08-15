@@ -3,7 +3,7 @@
 def insertBacktest(cursor, ticker, stratinfo, strategyKey, datestr, strategies):
 
     cursor.execute("""
-        INSERT INTO trading.backtest
+        INSERT IGNORE INTO trading.backtest
         SELECT %s, strategy.id, %s, %s, %s
         FROM trading.strategy as strategy
         WHERE 

@@ -146,13 +146,13 @@ def runProcess(filenames, optionsStrings, strategies, ticker):
                     selectHistoryResult = getHistory(filename, cursor, ticker)
 
                     for stratinfo in strategies:
-                        optStringsToTest = []
+                        optStringsToTest = optionsStrings # []
 
-                        for optionsString in optionsStrings:
-                            selectLen = getBacktestResultsDbCount(cursor, ticker, stratinfo, optionsString, datestr)
-                            if selectLen == 0:
-                                # strategy with options not in DB - set up to add.
-                                optStringsToTest.append(optionsString)
+                        # for optionsString in optionsStrings:
+                        #     selectLen = getBacktestResultsDbCount(cursor, ticker, stratinfo, optionsString, datestr)
+                        #     if selectLen == 0:
+                        #         # strategy with options not in DB - set up to add.
+                        #         optStringsToTest.append(optionsString)
                         
                         if len(optStringsToTest) > 0:
                             # Has no results : calculate and insert entry 
