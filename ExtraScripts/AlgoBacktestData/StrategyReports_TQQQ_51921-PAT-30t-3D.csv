@@ -1,0 +1,56 @@
+Id;Strategy;Side;Amount;Price;Date/Time;Trade P/L;P/L;Position;
+1;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$93.28;5/14/21, 8:40 AM;;($0.15);1.0;
+2;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$93.13;5/14/21, 8:40 AM;($0.15);($0.15);0.0;
+3;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$92.99;5/14/21, 8:45 AM;;($0.41);1.0;
+4;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$92.60;5/14/21, 8:48 AM;($0.39);($0.54);0.0;
+5;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$93.00;5/14/21, 8:52 AM;;($0.25);1.0;
+6;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$93.47;5/14/21, 9:00 AM;$0.47;($0.07);0.0;
+7;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$93.75;5/14/21, 9:01 AM;;($0.34);1.0;
+8;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$93.31;5/14/21, 9:05 AM;($0.44);($0.51);0.0;
+9;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$93.47;5/14/21, 9:10 AM;;($0.21);1.0;
+10;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$94.28;5/14/21, 9:38 AM;$0.81;$0.30;0.0;
+11;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$94.79;5/14/21, 9:57 AM;;$0.12;1.0;
+12;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$94.95;5/14/21, 10:52 AM;$0.16;$0.46;0.0;
+13;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$94.28;5/17/21, 8:35 AM;;$0.56;1.0;
+14;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$94.58;5/17/21, 8:41 AM;$0.30;$0.75;0.0;
+15;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$94.84;5/17/21, 8:45 AM;;$0.89;1.0;
+16;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$94.78;5/17/21, 8:49 AM;($0.06);$0.69;0.0;
+17;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$93.37;5/17/21, 9:05 AM;;$0.99;1.0;
+18;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$93.25;5/17/21, 9:07 AM;($0.12);$0.57;0.0;
+19;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$93.36;5/17/21, 9:12 AM;;$0.78;1.0;
+20;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$93.30;5/17/21, 9:14 AM;($0.06);$0.51;0.0;
+21;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$93.61;5/17/21, 9:17 AM;;$0.75;1.0;
+22;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$94.16;5/17/21, 9:29 AM;$0.55;$1.06;0.0;
+23;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$93.75;5/17/21, 9:36 AM;;$1.36;1.0;
+24;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$94.54;5/17/21, 9:42 AM;$0.79;$1.85;0.0;
+25;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$94.30;5/17/21, 9:51 AM;;$2.11;1.0;
+26;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$94.29;5/17/21, 9:52 AM;($0.01);$1.84;0.0;
+27;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$95.11;5/18/21, 8:37 AM;;$1.92;1.0;
+28;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$95.00;5/18/21, 8:42 AM;($0.11);$1.73;0.0;
+29;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$95.07;5/18/21, 8:48 AM;;$1.45;1.0;
+30;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$94.66;5/18/21, 8:50 AM;($0.41);$1.32;0.0;
+31;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$94.77;5/18/21, 8:53 AM;;$1.14;1.0;
+32;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$94.67;5/18/21, 9:03 AM;($0.10);$1.22;0.0;
+33;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$95.00;5/18/21, 9:12 AM;;$1.47;1.0;
+34;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$95.73;5/18/21, 9:54 AM;$0.73;$1.96;0.0;
+35;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$88.06;5/19/21, 8:42 AM;;$2.21;1.0;
+36;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$89.07;5/19/21, 8:46 AM;$1.00;$2.96;0.0;
+37;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$89.04;5/19/21, 8:50 AM;;$3.21;1.0;
+38;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$89.06;5/19/21, 8:52 AM;$0.02;$2.98;0.0;
+39;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$89.12;5/19/21, 8:56 AM;;$3.23;1.0;
+40;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$88.89;5/19/21, 8:58 AM;($0.23);$2.75;0.0;
+41;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$88.41;5/19/21, 9:06 AM;;$2.91;1.0;
+42;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$88.52;5/19/21, 9:12 AM;$0.11;$2.86;0.0;
+43;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$89.08;5/19/21, 9:19 AM;;$2.83;1.0;
+44;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$88.87;5/19/21, 9:21 AM;($0.21);$2.65;0.0;
+45;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$89.23;5/19/21, 9:22 AM;;$2.53;1.0;
+46;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$89.53;5/19/21, 9:33 AM;$0.30;$2.95;0.0;
+47;PAT_Price_Action_Trading_Strategy(BUY PAT);Buy to Open;1.0;$89.46;5/19/21, 9:44 AM;;$3.25;1.0;
+48;PAT_Price_Action_Trading_Strategy(SELL PAT);Sell to Close;-1.0;$89.96;5/19/21, 9:56 AM;$0.50;$3.45;0.0;
+
+
+Max trade P/L: $1.00;
+
+Total P/L: $3.45;
+
+Total order(s): 24;

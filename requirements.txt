@@ -1,0 +1,9 @@
+requests
+selenium
+python-dateutil
+websockets
+nest_asyncio
+urllib3
+tk
+tkinter
+mysql-connector-python

@@ -1,0 +1,14 @@
+Id;Strategy;Side;Amount;Price;Date/Time;Trade P/L;P/L;Position;
+1;GOLD_PAT_Range_Strategy_shorteraggregation(BUY PAT);Buy to Open;1.0;$95.00;5/18/21, 9:10 AM;;($0.22);1.0;
+2;GOLD_PAT_Range_Strategy_shorteraggregation(SELL PAT);Sell to Close;-1.0;$94.78;5/18/21, 9:10 AM;($0.22);($0.22);0.0;
+3;GOLD_PAT_Range_Strategy_shorteraggregation(BUY PAT);Buy to Open;1.0;$96.07;5/18/21, 10:04 AM;;($0.36);1.0;
+4;GOLD_PAT_Range_Strategy_shorteraggregation(SELL PAT);Sell to Close;-1.0;$95.93;5/18/21, 10:09 AM;($0.14);($0.36);0.0;
+5;GOLD_PAT_Range_Strategy_shorteraggregation(BUY PAT);Buy to Open;1.0;$88.46;5/19/21, 8:42 AM;;($0.14);1.0;
+6;GOLD_PAT_Range_Strategy_shorteraggregation(SELL PAT);Sell to Close;-1.0;$89.05;5/19/21, 8:45 AM;$0.59;$0.23;0.0;
+
+
+Max trade P/L: $0.59;
+
+Total P/L: $0.23;
+
+Total order(s): 3;

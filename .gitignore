@@ -1,0 +1,7 @@
+/config/*
+/Records/Helpful/*
+/Records/OLD
+/Records/Trades
+/Records/*
+*.pyc
+/TestData/*
