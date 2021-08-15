@@ -143,6 +143,9 @@ class Strategy:
     def getProfitSoFar(self):
         return self.profitSoFar
 
+    def getTradesSoFar(self):
+        return self.tradesMade
+
     def getTicker(self):
         return self.ticker 
 

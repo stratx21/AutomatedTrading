@@ -1,6 +1,6 @@
 
 
-def insertBacktest(cursor, ticker, stratinfo, strategyKey, datestr, strategies):
+def insertBacktest(cursor, ticker, stratinfo, datestr, profit, trades):
 
     cursor.execute("""
         INSERT INTO trading.backtest
@@ -14,13 +14,13 @@ def insertBacktest(cursor, ticker, stratinfo, strategyKey, datestr, strategies):
             AND strategy.options_str = %s""",
         (ticker, \
         datestr, \
-        strategies[strategyKey].profitSoFar, \
-        strategies[strategyKey].tradesMade, \
+        profit, \
+        trades, \
         stratinfo[0], \
         stratinfo[1], \
         (str(stratinfo[2]) if stratinfo[2] != None else "None"), \
         (str(stratinfo[3]) if stratinfo[3] != None else "None"), \
-        strategyKey))
+        stratinfo[5]))
 
 
     # cursor.execute("""
