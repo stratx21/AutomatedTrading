@@ -41,12 +41,12 @@ def updateStrategyTable():
         strategies = getStrategyInfoToTest()  
         optionsStrings = getAllOptionsToTest()
 
-        totalRuns = len(strategies)
-        run = 0
+        # totalRuns = len(strategies)
+        # run = 0
 
         for stratInfo in strategies:
-            run += 1
-            print(str(int(run*100.0/totalRuns)) + "%")
+            # run += 1
+            # print(str(int(run*100.0/totalRuns)) + "%")
             for optionsString in optionsStrings:
                 # if not strategyExistsInDB(
                 #     stratInfo[0],
