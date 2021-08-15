@@ -23,20 +23,6 @@ def insertBacktest(cursor, ticker, stratinfo, datestr, profit, trades):
         stratinfo[5]))
 
 
-    # cursor.execute("""
-    #     INSERT INTO trading.backtest (ticker, strat_name, aggregation, param1, param2, options_str, date, profit, trades)
-    #     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-    #     (ticker, \
-    #     stratinfo[0], \
-    #     str(stratinfo[1]), \
-    #     (str(stratinfo[2]) if stratinfo[2] != None else "None"), \
-    #     (str(stratinfo[3]) if stratinfo[3] != None else "None"), \
-    #     strategyKey,
-    #     datestr, \
-    #     strategies[strategyKey].profitSoFar, \
-    #     strategies[strategyKey].tradesMade))
-
-
 def getBacktestResultsDbCount(cursor, ticker, stratinfo, optionsString, datestr):
     cursor.execute("\
         SELECT * \
