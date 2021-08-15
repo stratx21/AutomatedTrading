@@ -21,13 +21,15 @@ def strategyExistsInDB(name, aggregation, param1, param2, optionsString, cursor)
 
 def insertStrategyIntoDB(name, aggregation, param1, param2, optionsString, cursor):
     cursor.execute("""
-        INSERT INTO trading.strategy (name, aggregation, param1, param2, options_str)
+        INSERT IGNORE INTO trading.strategy (name, aggregation, param1, param2, options_str)
         VALUES (%s, %s, %s, %s, %s)""",
         (name, \
         str(aggregation),
         "None" if param1 == None else param1,
         "None" if param2 == None else param2,
         optionsString))
+
+
 
 def updateStrategyTable():
     with connect(
@@ -46,14 +48,14 @@ def updateStrategyTable():
             run += 1
             print(str(int(run*100.0/totalRuns)) + "%")
             for optionsString in optionsStrings:
-                if not strategyExistsInDB(
-                    stratInfo[0],
-                    stratInfo[1],
-                    stratInfo[2],
-                    stratInfo[3],
-                    optionsString,
-                    cursor):
-
+                # if not strategyExistsInDB(
+                #     stratInfo[0],
+                #     stratInfo[1],
+                #     stratInfo[2],
+                #     stratInfo[3],
+                #     optionsString,
+                #     cursor):
+                # ^ not needed if INSERT IGNORE works
                     insertStrategyIntoDB(
                         stratInfo[0],
                         stratInfo[1],
