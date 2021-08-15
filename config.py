@@ -9,9 +9,9 @@ simulatingTimeStamp = None
 csvBacktestLogEnabled = False
 
 callback_url = "http://localhost"
-config_json_file = "config/config_account.json"
-token_config_file = "config/token.config.json"
-token_config_file_jh2 = "config/token_jh2.config.json"
+config_json_file = "CredentialsConfig/config_account.json"
+token_config_file = "CredentialsConfig/token.config.json"
+token_config_file_jh2 = "CredentialsConfig/token_jh2.config.json"
 report_prefix = "Report_"
 records_directory = "Records/"
 def get_trade_records_directory():

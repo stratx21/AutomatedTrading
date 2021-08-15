@@ -1,5 +1,5 @@
 
-config/config_account.json required for sending orders: 
+CredentialsConfig/config_account.json required for sending orders: 
 format: 
 {
     "AccountID": "ENTER_ACCT_####"
@@ -10,7 +10,7 @@ format:
 config.py required 
 
 
-./config/ folder:
+./CredentialsConfig/ folder:
   config_account.json
   db_auth_config.py
   TDA_auth_config.py
