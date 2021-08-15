@@ -124,7 +124,8 @@ def runProcess(filenames, optionsStrings, strategies, ticker):
     buystart = config.getBuyStart(ticker)
     buystop = config.getBuyStop(ticker)
 
-    print("started process for ticker", ticker, "- runs to process:", str(totalRuns))
+    start_timer = time.time()
+    print("started process for ticker", ticker, "at time", start_timer, "- runs to process:", str(totalRuns))
 
     entriesAlreadyExistedCount = 0
     entriesAddedCount = 0
@@ -146,13 +147,13 @@ def runProcess(filenames, optionsStrings, strategies, ticker):
                     selectHistoryResult = getHistory(filename, cursor, ticker)
 
                     for stratinfo in strategies:
-                        optStringsToTest = optionsStrings # []
+                        optStringsToTest = []
 
-                        # for optionsString in optionsStrings:
-                        #     selectLen = getBacktestResultsDbCount(cursor, ticker, stratinfo, optionsString, datestr)
-                        #     if selectLen == 0:
-                        #         # strategy with options not in DB - set up to add.
-                        #         optStringsToTest.append(optionsString)
+                        for optionsString in optionsStrings:
+                            selectLen = getBacktestResultsDbCount(cursor, ticker, stratinfo, optionsString, datestr)
+                            if selectLen == 0:
+                                # strategy with options not in DB - set up to add.
+                                optStringsToTest.append(optionsString)
                         
                         if len(optStringsToTest) > 0:
                             # Has no results : calculate and insert entry 
@@ -175,8 +176,8 @@ def runProcess(filenames, optionsStrings, strategies, ticker):
     except Error as e:
         print("error with db: ", e)
 
-
-    print("done testing with streamed tick data for ", ticker, ".")
+    doneTime = time.time()
+    print("done testing with streamed tick data for", ticker + ". End time:", doneTime, "elapsed time:", start_timer - doneTime)
     print(str(entriesAddedCount), "entries added,", str(entriesAlreadyExistedCount), "entries already existed.")
 
 

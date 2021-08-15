@@ -1,7 +1,7 @@
 from mysql.connector import connect, Error 
 from Backtesting.BacktestConfigMediator import getAllOptionsToTest, getStrategyInfoToTest
 
-
+# unused?
 def strategyExistsInDB(name, aggregation, param1, param2, optionsString, cursor):
     cursor.execute("\
         SELECT id \
@@ -21,9 +21,23 @@ def strategyExistsInDB(name, aggregation, param1, param2, optionsString, cursor)
 
 def insertStrategyIntoDB(name, aggregation, param1, param2, optionsString, cursor):
     cursor.execute("""
-        INSERT IGNORE INTO trading.strategy (name, aggregation, param1, param2, options_str)
-        VALUES (%s, %s, %s, %s, %s)""",
+        INSERT INTO trading.strategy (name, aggregation, param1, param2, options_str)
+        SELECT %s, %s, %s, %s, %s
+        WHERE NOT EXISTS(
+            SELECT id \
+            FROM trading.strategy as strat \
+            WHERE \
+                strat.name = %s \
+                AND strat.aggregation = %s \
+                AND strat.param1 = %s \
+                AND strat.param2 = %s \
+                AND strat.options_str = %s)""",
         (name, \
+        str(aggregation),
+        "None" if param1 == None else param1,
+        "None" if param2 == None else param2,
+        optionsString,
+        name, \
         str(aggregation),
         "None" if param1 == None else param1,
         "None" if param2 == None else param2,
