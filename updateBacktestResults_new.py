@@ -11,18 +11,22 @@ import time
 from Strategies.Strategy import Strategy 
 from mysql.connector import connect, Error 
 import gc
-from Backtesting.BacktestConfigMediator import getAllOptionsToTest, getStrategyInfoToTest
-from DataManagement.Database.StrategyTable import updateStrategyTable, getStrategiesNotProcessed
+from DataManagement.Database.BacktestTable import insertBacktest
 from DataManagement.Database.HistoryTable import updateHistory, getHistory
+from DataManagement.Database.StrategyTable import getStrategiesNotProcessed
 import CredentialsConfig.db_auth_config as db_auth_config
-from DataManagement.Database.BacktestTable import insertBacktest, getBacktestResultsDbCount
 
 def calculateAndInsertResult(ticker, stratinfo, filename, datestr, selectHistoryResult, buystart, buystop, cursor):
     #              0     1            2       3       4            5
     # stratinfo: (id, name, aggregation, param1, param2, options_str)
 
     # strategyName, strategyTicker, strategyAggregation, optionalArg1=None, optionalArg2=None
-    strategy = StrategyCreator.create(stratinfo[0], ticker, stratinfo[1], stratinfo[2], stratinfo[3])
+    strategy = StrategyCreator.create(
+        stratinfo[1], 
+        ticker, 
+        stratinfo[2], 
+        None if stratinfo[3] == "None" else stratinfo[3],
+        None if stratinfo[4] == "None" else stratinfo[4])
     if strategy == None:
         print("error, failed to create strategy for ticker ", ticker, ":", *stratinfo)
         return
