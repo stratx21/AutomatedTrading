@@ -14,7 +14,7 @@ import gc
 from Backtesting.BacktestConfigMediator import getAllOptionsToTest, getStrategyInfoToTest
 from DataManagement.Database.StrategyTable import updateStrategyTable
 from DataManagement.Database.HistoryTable import updateHistory
-import config.db_auth_config
+import config.db_auth_config as db_auth_config
 
 def getFirstTimestamp(filename):
     with open(filename, newline='') as csvfile:

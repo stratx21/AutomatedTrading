@@ -3,7 +3,7 @@ import Network.TDAmeritrade as TDAmeritrade
 import DataManagement.DataTransferStrings as DataTransferStrings
 import DataManagement.Auth.auth as auth
 from mysql.connector import connect, Error 
-import config.db_auth_config
+import config.db_auth_config as db_auth_config
 
 
 
