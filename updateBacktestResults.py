@@ -14,7 +14,7 @@ import gc
 from Backtesting.BacktestConfigMediator import getAllOptionsToTest, getStrategyInfoToTest
 from DataManagement.Database.StrategyTable import updateStrategyTable
 from DataManagement.Database.HistoryTable import updateHistory, getHistory
-import config.db_auth_config as db_auth_config
+import CredentialsConfig.db_auth_config as db_auth_config
 from DataManagement.Database.BacktestTable import insertBacktest, getBacktestResultsDbCount
 
 def calculateAndInsertResult(ticker, stratinfo, filename, datestr, selectHistoryResult, buystart, buystop, optionsStrings, cursor):

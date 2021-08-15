@@ -1,7 +1,7 @@
 import xlsxwriter 
 import config 
 from mysql.connector import connect, Error 
-import config.db_auth_config as db_auth_config
+import CredentialsConfig.db_auth_config as db_auth_config
 
 class ExcelGenerator: 
 

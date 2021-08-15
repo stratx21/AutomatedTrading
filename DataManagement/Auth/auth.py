@@ -8,7 +8,7 @@ import config
 import datetime 
 import dateutil
 import Terminal.TerminalStrings as TerminalStrings
-import config.TDA_auth_config as TDA_auth_config
+import CredentialsConfig.TDA_auth_config as TDA_auth_config
 
 tokenUpdateProcess = None 
 

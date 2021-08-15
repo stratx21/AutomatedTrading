@@ -1,4 +1,4 @@
-/config/*
+/CredentialsConfig/*
 /Records/*
 !/Records/MyNotesAndInformation/
 *.pyc

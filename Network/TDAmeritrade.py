@@ -11,7 +11,7 @@ from math import ceil
 import nest_asyncio
 import Terminal.TerminalStrings as TerminalStrings
 import DataManagement.DataTransferStrings as DataTransferStrings
-import config.TDA_auth_config as TDA_auth_config
+import CredentialsConfig.TDA_auth_config as TDA_auth_config
 
 nest_asyncio.apply()
 
