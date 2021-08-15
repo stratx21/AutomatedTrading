@@ -68,4 +68,18 @@ def updateStrategyTable():
 
 
 
-        
+def getStrategiesNotProcessed(ticker, datestr, cursor):
+    cursor.execute("""
+        SELECT *
+        FROM trading.strategy as strategy
+        WHERE NOT EXISTS (
+            SELECT null
+            FROM trading.backtest as backtest
+            WHERE strategy.id = backtest.strategy_id
+                AND backtest.ticker = %s
+                AND backtest.date = %s
+        )""",
+        (ticker, datestr))
+    return cursor.fetchall()
+
+
