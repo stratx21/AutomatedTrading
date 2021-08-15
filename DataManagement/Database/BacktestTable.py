@@ -7,17 +7,17 @@ def insertBacktest(cursor, ticker, stratinfo, strategyKey, datestr, strategies):
         SELECT %s, strategy.id, %s, %s, %s
         FROM trading.strategy as strategy
         WHERE 
-            strategy.name = %s, 
-            strategy.aggregation = %s, 
-            strategy.param1 = %s, 
-            strategy.param2 = %s, 
-            strategy.options_str = %s""",
+            strategy.name = %s 
+            AND strategy.aggregation = %s 
+            AND strategy.param1 = %s 
+            AND strategy.param2 = %s 
+            AND strategy.options_str = %s""",
         (ticker, \
         datestr, \
         strategies[strategyKey].profitSoFar, \
         strategies[strategyKey].tradesMade, \
         stratinfo[0], \
-        str(stratinfo[1]), \
+        stratinfo[1], \
         (str(stratinfo[2]) if stratinfo[2] != None else "None"), \
         (str(stratinfo[3]) if stratinfo[3] != None else "None"), \
         strategyKey))
@@ -46,7 +46,7 @@ def getBacktestResultsDbCount(cursor, ticker, stratinfo, optionsString, datestr)
             AND backtest.strategy_id = strategy.id \
             AND strategy.name = %s\
             AND strategy.aggregation = %s\
-            AND strategy.param1 = %s \
+            AND strategy.param1  = %s \
             AND strategy.param2 = %s\
             AND strategy.options_str = %s\
             AND backtest.date = %s" % \
