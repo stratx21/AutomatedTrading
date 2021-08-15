@@ -4,6 +4,8 @@ import DataManagement.DataTransferStrings as DataTransferStrings
 import DataManagement.Auth.auth as auth
 from mysql.connector import connect, Error 
 import config.db_auth_config as db_auth_config
+import datetime 
+import csv 
 
 
 
@@ -53,6 +55,38 @@ def updateHistory(tickers):
                 print("finished for ticker " + ticker)
 
             config.days_of_history_to_get = oldConfigValue 
+
+
+
+def getFirstTimestamp(filename):
+    with open(filename, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        row = next(reader)
+        return row['Timestamp'] # first timestamp of tick data
+
+def getHistory(filename, cursor, ticker):
+    historyStopTimetamp = getFirstTimestamp(filename)
+    historyStopDatetime = datetime.datetime.fromtimestamp(float(historyStopTimetamp)/1000.0)
+    daysToSubtract = 2
+    if historyStopDatetime.weekday() == 0:
+        daysToSubtract += 2
+    elif historyStopDatetime.weekday() == 6:
+        daysToSubtract += 1
+    startHistoryAtDatetime = historyStopDatetime - datetime.timedelta(days=daysToSubtract)
+    startHistoryTimestamp = int(startHistoryAtDatetime.timestamp()*1000.0)
+
+    # print("start: ", str(startHistoryTimestamp), " , stop: ", historyStopTimetamp)
+    cursor.execute("\
+        SELECT open, low, high, close \
+        FROM trading.history \
+        WHERE \
+            ticker = %s \
+            AND timestamp < %s \
+            AND timestamp > %s" % \
+        ("\"" + ticker + "\"", \
+        str(historyStopTimetamp), \
+        str(startHistoryTimestamp)))
+    return cursor.fetchall()
 
 
 

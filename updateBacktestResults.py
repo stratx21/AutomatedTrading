@@ -13,60 +13,9 @@ from mysql.connector import connect, Error
 import gc
 from Backtesting.BacktestConfigMediator import getAllOptionsToTest, getStrategyInfoToTest
 from DataManagement.Database.StrategyTable import updateStrategyTable
-from DataManagement.Database.HistoryTable import updateHistory
+from DataManagement.Database.HistoryTable import updateHistory, getHistory
 import config.db_auth_config as db_auth_config
-
-def getFirstTimestamp(filename):
-    with open(filename, newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        row = next(reader)
-        return row['Timestamp'] # first timestamp of tick data
-
-def getHistory(filename, cursor, ticker):
-    historyStopTimetamp = getFirstTimestamp(filename)
-    historyStopDatetime = datetime.datetime.fromtimestamp(float(historyStopTimetamp)/1000.0)
-    daysToSubtract = 2
-    if historyStopDatetime.weekday() == 0:
-        daysToSubtract += 2
-    elif historyStopDatetime.weekday() == 6:
-        daysToSubtract += 1
-    startHistoryAtDatetime = historyStopDatetime - datetime.timedelta(days=daysToSubtract)
-    startHistoryTimestamp = int(startHistoryAtDatetime.timestamp()*1000.0)
-
-    # print("start: ", str(startHistoryTimestamp), " , stop: ", historyStopTimetamp)
-    cursor.execute("\
-        SELECT open, low, high, close \
-        FROM trading.history \
-        WHERE \
-            ticker = %s \
-            AND timestamp < %s \
-            AND timestamp > %s" % \
-        ("\"" + ticker + "\"", \
-        str(historyStopTimetamp), \
-        str(startHistoryTimestamp)))
-    return cursor.fetchall()
-
-def getBacktestResultsDbCount(cursor, ticker, stratinfo, optionsString, datestr):
-    cursor.execute("\
-        SELECT * \
-        FROM trading.backtesting_results \
-        WHERE \
-            ticker = %s\
-            AND strat_name = %s\
-            AND aggregation = %s\
-            AND param1 = %s \
-            AND param2 = %s\
-            AND options_str = %s\
-            AND date = %s" % \
-        ("\"" + ticker + "\"", \
-        "\"" + stratinfo[0] + "\"", \
-        "\"" + str(stratinfo[1]) + "\"", \
-        "\"" + (str(stratinfo[2]) if stratinfo[2] != None else "None") + "\"", \
-        "\"" + (str(stratinfo[3]) if stratinfo[3] != None else "None") + "\"", \
-        "\"" + optionsString + "\"", \
-        "\"" + datestr + "\""))
-
-    return len(cursor.fetchall())
+from DataManagement.Database.BacktestTable import insertBacktest, getBacktestResultsDbCount
 
 def calculateAndInsertResult(ticker, stratinfo, filename, datestr, selectHistoryResult, buystart, buystop, optionsStrings, cursor):
     strategies = {}
@@ -157,18 +106,7 @@ def calculateAndInsertResult(ticker, stratinfo, filename, datestr, selectHistory
             strategy.sell() # force it to sell at EOD
     
     for strategyKey in strategies.keys(): 
-        cursor.execute("""
-            INSERT INTO trading.backtesting_results (ticker, strat_name, aggregation, param1, param2, options_str, date, profit, trades)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-            (ticker, \
-            stratinfo[0], \
-            str(stratinfo[1]), \
-            (str(stratinfo[2]) if stratinfo[2] != None else "None"), \
-            (str(stratinfo[3]) if stratinfo[3] != None else "None"), \
-            strategyKey,
-            datestr, \
-            strategies[strategyKey].profitSoFar, \
-            strategies[strategyKey].tradesMade))
+        insertBacktest(cursor, ticker, stratinfo, strategyKey, datestr, strategies)
     
     # connection.commit()
 
@@ -180,7 +118,6 @@ def calculateAndInsertResult(ticker, stratinfo, filename, datestr, selectHistory
 
 
 def runProcess(filenames, optionsStrings, strategies, ticker):
-    orderedTotals = {}
     totalRuns = len(filenames) * len(strategies) * len(optionsStrings)
     config.simulating = True
     Strategy.outputEnabled = False 
@@ -278,7 +215,7 @@ def run():
 
     # update history
     print("updating history...")
-    # updateHistory(filesPerTicker.keys())
+    updateHistory(filesPerTicker.keys())
 
     print("\n========================================\n")
     print("updating strategy permutations...")
@@ -287,8 +224,8 @@ def run():
     print("\n========================================\n")
     print("total runs to process: ", str(totalRuns))
 
-    # for ticker in filesPerTicker.keys():
-        # Process(target=runProcess, args = (filesPerTicker[ticker], optionsStrings, strategies, ticker)).start()
+    for ticker in filesPerTicker.keys():
+        Process(target=runProcess, args = (filesPerTicker[ticker], optionsStrings, strategies, ticker)).start()
         
         #runProcess(filesPerTicker[ticker], strategies, ticker)
 
