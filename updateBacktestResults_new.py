@@ -166,9 +166,6 @@ def run():
 
         filesPerTicker[ticker].append(filename)
 
-    # start_timer = time.time()
-    # print("start time: ", start_timer)
-
     # update history
     print("updating history...")
     updateHistory(filesPerTicker.keys())
@@ -178,11 +175,6 @@ def run():
 
     for ticker in filesPerTicker.keys():
         Process(target=runProcess, args = (filesPerTicker[ticker], ticker)).start()
-        
-        #runProcess(filesPerTicker[ticker], strategies, ticker)
-
-    # print("finished! elapsed time: ", (time.time()-start_timer))
-
 
 
 if __name__ == "__main__":
