@@ -1,0 +1,17 @@
+best from data mine 6/21:
+ - TQQQ 20 renko_CaV 10
+ - SOXL 
+    - 15t renko_CaV 9
+    - 15t renko_vbs 1 1
+    - (best) 20t bbr_v32W
+ - FNGU 20t, renko_vbs 2 2
+ - UCO 20t renko_CaV [9 or 10]
+ - SPXL (BBR_v32W there a lot)
+    - (best) 25t bbr_v32W
+    - (third best) 15t bbr_v32W
+ - VDE 15t BBMR_MAS 30  (BBMR_MAS there a lot)
+    - 15t BBMR_MAS [25,30,35] all worked-took middle
+ - UVXY 25t BBMR_MAS 35
+    - I half expect this one to change - huge volatility spike due to FED catalyst in data. 
+ - MARA 20t bbr_v32W
+    - drastically higher than the others 

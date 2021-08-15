@@ -1,0 +1,15 @@
+try to run: (analyzed 7/7)
+TQQQ 25 renko_sa 3               
+SOXL 10 range_cav 10         
+FNGU 15 bbr_v32w
+UCO 15 renko_con_vs 10 3  : (3.69/31)
+SPXL 20 range_cav 10          
+VDE 10 renko_con_vs 9 1       : 
+MARA 20 BBR_v32W               :
+GUSH 20 renko_bah                : 
+
+ - VDE 15t BBMR_MAS 30
+ - SPXL 25t bbr_v32W
+ - UVXY 25t BBMR_MAS 35
+
+stream add VDE TQQQ SPXL UCO MARA SOXL FNGU UVXY LABU GUSH JNUG

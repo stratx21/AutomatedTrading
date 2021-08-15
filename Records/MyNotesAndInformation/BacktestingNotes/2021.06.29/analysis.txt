@@ -1,0 +1,14 @@
+Data mine 6/29: (data up to 29th, written on 30th)
+(last week+today) (last 2 weeks+today)
+
+- FNGU 20 renko_vbs 2 2    (could switch to 10 PAT later)
+- TQQQ 20 RENKO_SA 5
+- UCO 
+- VDE 
+- MARA 20 BBR_v32W
+- SOXL 20 PAT
+- GUSH 20 RENKO_BAH
+- SPXL 
+
+
+- first analysis with total-0.01*trades ordering 

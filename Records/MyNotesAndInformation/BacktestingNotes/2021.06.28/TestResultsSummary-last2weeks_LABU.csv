@@ -1,0 +1,2 @@
+ticker,stratName,aggregation,param1,param2,datafile,day,profit,trades,ProfitPerTrade
+LABU,PAT_SMAG_LNB,30,45,None,TOTAL,TOTAL,0.7599999999999909,73,0.029999999999990923

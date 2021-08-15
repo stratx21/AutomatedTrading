@@ -1,0 +1,13 @@
+best from data mine 6/23:
+- FNGU 20t renko_vbs 2 2 (2.97/9) (0.33)
+- TQQQ 20t renko_CaV 10 (7.53/26) (0.2896)
+- UCO 25t renko_CaV 9 (2.16/2) (1.08)
+- MARA 20 bbr_v32W (4.36/19) (0.22947)
+  - alt: 25t renko_CaV 10 (1.39/2) (0.231667)
+- VDE 25t renko_vbs 1 2 (1.84/7) (0.262857)
+- SOXL 20t bbr_v32W
+- SPXL [15t,25t] bbr_v32W [(3.63/23)(0.16) , (2.44/9, 0.271)
+- UVXY 20t PAT_SMAG_LNB 50
+  - alt: (previous): 25t BBMR_MAS 35
+
+used data for 8 days (weeks,days: 1,3)

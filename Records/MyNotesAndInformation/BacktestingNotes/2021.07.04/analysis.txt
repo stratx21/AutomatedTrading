@@ -1,0 +1,9 @@
+try to run: 
+TQQQ 25 renko_sa 3               : (9.77/76)
+SOXL 10 range_cav 10         : (5.59/136)
+FNGU 10 PAT                      : (4.45/172)
+UCO 25 renko_con_vs 9 1     : (3.49/9)
+SPXL 20 range_cav 10          : (3.53/49)
+VDE 10 renko_con_vs 9 1       : 
+MARA 20 BBR_v32W               : (5.07/28)
+GUSH 20 renko_bah                : (3.88/57)

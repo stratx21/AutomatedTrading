@@ -1,0 +1,28 @@
+try to run: (analyzed 8/7)
+TQQQ 20 renko_sa 4  +stopAt -1%          
+SOXL 20 renko_tsfh 20     
+FNGU 15 renko_smi 3 5  
+UCO 15 renko_wcsmi_vs 25 2    
+SPXL 20 renko_wcsmi_vs 35 2    
+GUSH 20 renko_bah
+VDE 10 renko_con_vs 9 1       : 
+MARA 20 BBR_v32W               :
+
+
+add ETSY to stream ? 
+
+opt TQQQ stopAtPercentLoss 1
+
+~ SPXL secondary: 20 renko_vbs 1 2  (consistently good through past backtestings as of 7/9)
+~ TQQQ secondary: 20 renko_vbs 1 1 (pretty consistent line)
+~ GUSH secondary: 25 renko_vbs 2 2 (higher gains, maybe better line than renko_bah?)
+~? FNGU : renko_10 smi 3 5
+~? SOXL 10 renko_wcsmi_vs 30 3 : has humps, but consistently up
+~? TQQQ 20 range_cav 15
+
+[7/27: I bet SOXL 10 renko_wc_vs 20 3 will go up tomorrow/soon]
+
+check out:
+- TQQQ 20 renko_sa 4
+
+stream add VDE TQQQ SPXL UCO MARA SOXL FNGU UVXY LABU GUSH JNUG VXX

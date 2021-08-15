@@ -1,0 +1,211 @@
+
+to add to automation software: 
+- fix dates in generated xslx
+- add top 5 or 10 page to generated xslx
+- add volume to streamed saved data 
+- add minute based charts 
+- add opts to backtest results db and reportBacktest xlsx
+- try a variation of TSFH where x decreases as it goes up *(is this just simulating an OCO/PT bracket? - just add OCO/PT strategy)
+- add heiken ashi study
+- renko buy, sell on SMA ? find sells on buy conditions 
+- test GUSH with different time constraints
+- add study RSI 
+- add strategy RSI 
+- update backtesting system:
+  - add db of backtesting results 
+  - add get history functionality to backtesting - get history up to first timestamp
+- generate xslx with charts etc for backtesting 
+- allow multiple strategies for one stock 
+- add strategy range smi + range wcsmi
+- add strategy renko bah vs
+- add strategy MACD
+- add range and renko sma cross
+  - permutations will add a lot of testing data 
+  - add buy on cross, sell on cross below fast MA?
+~~ think through: if it has a decent profit, then sell ? 
+- try smi strategy with different %d %k ? 
+- add sell command 
+- add range strategy with simple price target system, after buying on green ? 
+  - could buy with SMAG
+- add higher low SMI ? (for range and renko ?)
+- ! add quantity to strategy parameters
+- add volume to streaming ? 
+- add writeline and replacelastline to ui logging window options 
+- add optional args to ui terminal title 
+- rename stream files to compact name on exit 
+  - or just don't use the whole date to name it 
+- add account config to separate account from general config 
+
+- create a whole UI system for backtesting
+  - uses the output files
+  - can choose the output files to analyze
+  - can show a chart of profits
+
+
+-NOTE: if you move strategies to be in processes in backtesting, the simulating config true may not be set in the process instances as well... might be if you set it before. 
+
+- manage exception with ui pipe crashing entire program
+- add command to check how long it has been running (save time at start)
+- add params for each strategy to strats command 
+- add time to candles when they print to log window
+- on testing saved data, add not weekend to buy condition 
+- add quantity argument to strategy addition 
+- set up to retry connection 5 times if it fails to connect or disconnects 
+- make script to show general and per stock data for orders data from TDA 
+  - or dont buy if signal bar and current bar (bar after) are both phantoms 
+- average the BA average with Last ? 
+- fix there being two recv 's when updating token ? 
+- check if old refresh tokens can be used 
+- add icon ? just for fun 
+
+
+
+
+=================================
+before running server 24/7:
+- add is weekday to isWithinBuyTimeConstraint 
+- make new autosell timer per day 
+- make it so adding or removing a strategy will add/remove it real time 
+  ~ essentially be able to add/remove strategies without affecting the streaming, as long as the tickers are included in what is being streamed. 
+  - will take a custom command in pipe
+  - if not started, dont worry 
+  - difficulty is adding a ticker to the stream 
+  -**: could keep a list of tickers currently being streamed, dont need to restart TDA services if it is already being streamed. 
+  - add a remove all strategies command 
+- add not weekend to buy condition 
+- allow adding tickers to stream after start 
+  # warning: the more streaming, the more unneccessary data needs to be ignored by the data mediator for routing to the strategies 
+- connect to a discord bot 
+  - regular ping message
+  - sends messages for orders 
+  - sends messages for PL (- real PL ? and %)
+    - total and per stock 
+  - accepts commands 
+  - warning for refresh token expiring soon 
+- make it so the program can run non-stop
+  - add close connection option to pipe for TDA 
+  - be able to continue saving stream without trading
+  - only add tickers to streaming if they are not already being streamed
+  - add TDA function to add tickers to stream ? 
+- make website to display data 
+
+
+===================================
+cleaning code:
+- organize user commands and main control into a main manager
+  - each command goes into a function 
+  - make one function to take in string input for commands, and relay to other command functions 
+  - create map for each run type (trade, vs save stream), mapping string to function for each possible command 
+- remove the isJH2 stuff everywhere if the same token can be used twice 
+- change renko_bah to green count > red count - more reliable 
+- update config.marketIsOpen to be updated by a timer or something rather than checking current time every time (difficult because of different processes)
+
+
+
+===============================
+Future Imrovements:
+- record params + info on Renko vbs and sa and bah
+- add sell command 
+- add config edits:
+  - time constraint
+  - save strategies as a config to load them (try inputting file as stdin first?)
+- create UI for all the user inputs, adding tickers to stream, adding strategies, etc ?
+- add command to start process to start a backtesting ? 
+
+
+- add command "chart" to show chart for specified ticker 
+  - would this use the updating csv data? or from held data? 
+    - will this need a lower level mediator to distribute the data?
+    - the csv data now is the stream, NOT the candle data... therefore using the csv would be a whole separate program to pull data and make the chart. but make sure there are no read/write conflicts... and how would it trigger from new data? 
+     - best to be in a subprocess it seems 
+  - will need to manage time for each candle 
+
+- add command to use config file to add strategies
+- add UI to see chart 
+- add script to summarize record data 
+- design software for market maker ? - needs order manager 
+
+- change strategy stock data to a parent stock data, set up a range strategy to inherit from instead of Strategy for range strategies 
+  - after previous ^ : remove printing history candles, instead print the last candle in enablePostHistory to show last candle after history finished. 
+
+- add a disable printing candle data (much later)
+  - a quiet function : disable candle after history too ? 
+- add a logger - logs to file as well as prints to screen 
+
+
+
+
+
+once I have the 25k:
+- can add shorting
+  - short after 1 green, buy back after next bar (find charts with lots of 1s)
+
+
+
+
+
+=================================================
+DONE:
+- link strategy so it gets data for that ticker 
+- process to auto update 30m authorization token / access_token 
+- orders - buy sell market 
+- stock history 
+- add enable / disable first - disable while entering historical data 
+- update token by refresh token 
+- for each buy and sell, update a CSV unique to that run of that strategy 
+- time constraints for buying in strategy 
+- fix history to include history from today 
+- make it so strategies are called by names 
+- add SMA isgreen
+- add option to use average of BA as price (average then round)
+- add SMAG_LNB for CPAT
+- fix enable 
+- add BBMR
+- add BBMR_MAS
+- add script to save tick data 
+- add to git 
+- switch add params to put aggregation before strategy name 
+- make extra files for JoshSHolland2 and use in save data stream 
+- add to config: map from ticker to buy time constraint to specify for certain stocks
+- add Renko chart 
+- add script to test tick data 
+- fix stop 
+- only average the B/A if it is non-market hours
+- add directory in records for trade records, direct trade records folder
+- add on save data script: add each stock with spaces in between each
+- make trading simulation use latest B/A for calculation and output 
+- add ticker to record names for testing streamed data 
+- add history finished to ui output
+- set up stream data backtesting to be able to run multiple strategies then output a table of information for each one. Profit, profit per each day, avg profit per day, days, trades, avg trades per day 
+- add CON and VAL
+- make each stock's candle data output to a separate terminal 
+  - print trade notifications to both terminals 
+- add more colors
+- make a UI with dropdowns for the testing stream data 
+- add summary after file input per strategy in testing-data-ui
+- add script to list best to worst options per ticker based on total's profit/trades
+  - use map ticker to list ordered by profit/trades
+- add auto sell at 2:55
+- fix status command to show params 
+- add renko_bah_sa
+- add renko_CaV_sa
+- add renko_CON_vs
+- multithreading for backtesting
+- backtesting : multiprocess, each part gets the file bunch for each ticker 
+- add range_CaV- add renko with context 
+  - add listener for new context candle 
+- add renko higher low 
+- add simple range SMI, see how it does ? 
+- add graph of PL for best solutions in backtesting ? 
+- add options for max loss, (etc.?)
+- add strategy WC SMI
+- add opts command to see options
+- 7/20 : backtest / test with RENKO_WCSMI_VS
+- make xslx generator based on db queries for backtesting results
+- try new sell point: monitor each addPrice, keep track of highest high, sell when price goes below highest high - x; where x = $0.4 for example to replace renko's VS 1 20t
+- make graphs on generated xslx larger - x2
+- add summary data to generated xslx - add above graph, addrow
+- update xslx generator to pull every existing ticker from the db and use that list 
+- range_smi_tsfh
+- range_con_tsfh
+- renko_wcsmi_tsfh

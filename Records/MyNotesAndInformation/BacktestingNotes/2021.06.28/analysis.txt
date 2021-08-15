@@ -1,0 +1,14 @@
+Data mine 6/28:
+(last week+today) (last 2 weeks+today)
+
+- FNGU 20 renko_vbs 2 2         : (1.3/5) (2.5/11)
+- TQQQ 35 cpat_smag_lnb 40
+- UCO 15 renko_cav 9
+#- VDE 10 renko_con_vs 9 1       : (0.91/17) (2.32/32)
+- MARA 20 BBR_v32W               : (2.37/9) (5.54/23)
+- SOXL 20 PAT                            : (1.52/33) (3.53/83)
+- GUSH 20 renko_bah                : (3.76/22) (4.6/43)
+- SPXL 15 BBR_v32W
+
+
+- first analysis with total-0.01*trades ordering 

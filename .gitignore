@@ -1,7 +1,5 @@
 /config/*
-/Records/Helpful/*
-/Records/OLD
-/Records/Trades
 /Records/*
+!/Records/MyNotesAndInformation/
 *.pyc
 /TestData/*

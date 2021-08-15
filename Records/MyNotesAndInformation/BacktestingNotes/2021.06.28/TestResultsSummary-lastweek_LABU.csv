@@ -1,0 +1,2 @@
+ticker,stratName,aggregation,param1,param2,datafile,day,profit,trades,ProfitPerTrade
+LABU,BBMR_MAS,25,15,None,TOTAL,TOTAL,0.700000000000017,33,0.37000000000001704

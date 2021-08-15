@@ -1,0 +1,7 @@
+try to run: (analyzed 7/16)
+TQQQ 25 renko_sa 3  +stopAt -1%          
+SOXL 10 range_cav 10 (?+maxTotalLoss -1.5%)         
+FNGU 25 renko_sa 5
+UCO 20 renko_con_sa 9 5
+SPXL 20 range_cav 10
+GUSH 20 renko_bah

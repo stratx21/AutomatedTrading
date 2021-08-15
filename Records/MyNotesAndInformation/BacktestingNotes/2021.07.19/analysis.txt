@@ -1,0 +1,20 @@
+try to run: (analyzed 7/19)
+TQQQ 25 renko_sa 3  +stopAt -1%          
+SOXL 20 renko_cav 10        
+FNGU 25 renko_sa 3
+UCO 20 renko_con_sa 9 5
+SPXL 25 CPAT_SMAG_LNB 25
+GUSH 20 renko_bah
+VDE 10 renko_con_vs 9 1       : 
+MARA 20 BBR_v32W               :
+
+
+~ SPXL secondary: 20 renko_vbs 1 2  (consistently good through past backtestings as of 7/9)
+~ TQQQ secondary: 20 renko_vbs 1 1 (pretty consistent line)
+~ GUSH secondary: 25 renko_vbs 2 2 (higher gains, maybe better line than renko_bah?)
+~? FNGU : renko_10 smi 3 5
+
+check out:
+- TQQQ 20 renko_sa 4
+
+stream add VDE TQQQ SPXL UCO MARA SOXL FNGU UVXY LABU GUSH JNUG
