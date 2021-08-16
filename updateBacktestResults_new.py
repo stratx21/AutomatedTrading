@@ -23,7 +23,7 @@ def runProcess(filenames, ticker):
     buystop = config.getBuyStop(ticker)
 
     start_timer = time.time()
-    print("started process for ticker", ticker, "at time", start_timer)
+    print("started process for ticker", ticker, "at time", datetime.datetime.fromtimestamp(start_timer))
 
     try:
         with connect(
@@ -62,7 +62,13 @@ def runProcess(filenames, ticker):
         print("error with db: ", e)
 
     doneTime = time.time()
-    print("done testing with streamed tick data for", ticker + ". End time:", doneTime, "elapsed time:", start_timer - doneTime)
+    elapsedSeconds = int(start_timer - doneTime)
+    print("done testing with streamed tick data for", 
+        ticker + ". End time:", 
+        datetime.datetime.fromtimestamp(doneTime), 
+        "elapsed time:", 
+        int(elapsedSeconds/360) + "h " + int((elapsedSeconds/60) % 60) + "m " + (elapsedSeconds % 60) + "s",
+        "AKA " + elapsedSeconds + " seconds (cheeck me then delete me)")
     # print(str(entriesAddedCount), "entries added,", str(entriesAlreadyExistedCount), "entries already existed.")
 
 

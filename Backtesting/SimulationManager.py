@@ -124,7 +124,6 @@ class SimulationManager:
             if row['Ask']:
                 strategy.setLastAsk(lastAsk)
 
-
             self.functionForAddingPrice(strategy, row['Last'])
             
 
