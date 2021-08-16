@@ -1,6 +1,5 @@
 import csv
 import datetime
-from DataManagement.Database.BacktestTable import insertBacktest
 import Strategies.StrategyCreator as StrategyCreator
 import config 
 
@@ -8,10 +7,11 @@ import config
 class SimulationManager:
 
     # TODO remove buystart and buystop 
-    def __init__(self, ticker, filename, datestr, selectHistoryResult, buystart, buystop):
+    def __init__(self, ticker, filename, datestr, selectHistoryResult, backtestBatchInsertManager):
         self.ticker = ticker
         self.filename = filename 
         self.datestr = datestr 
+        self.backtestBatchInsertManager = backtestBatchInsertManager
         # self.buystart = buystart 
         # self.buystop = buystop
 
@@ -75,7 +75,10 @@ class SimulationManager:
     ####################################################################
 
 
-    def calculateAndInsertResult(self, stratinfo, cursor):
+    def finish(self):
+        self.backtestBatchInsertManager.flush()
+
+    def calculateAndInsertResult(self, stratinfo):
         #              0     1            2       3       4            5
         # stratinfo: (id, name, aggregation, param1, param2, options_str)
 
@@ -132,4 +135,4 @@ class SimulationManager:
         if strategy.inPosition:
             strategy.sell() # force it to sell in case the file did not have EOD data
         
-        insertBacktest(cursor, self.ticker, stratinfo, self.datestr, strategy.getProfitSoFar(), strategy.getTradesSoFar())
+        self.backtestBatchInsertManager.insert(self.ticker, stratinfo[0], self.datestr, strategy.getProfitSoFar(), strategy.getTradesSoFar())

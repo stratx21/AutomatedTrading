@@ -10,6 +10,7 @@ from multiprocessing import Process
 import time 
 from Strategies.Strategy import Strategy 
 from mysql.connector import connect, Error 
+from DataManagement.Database.BacktestTable import BacktestBatchInsertManager
 from DataManagement.Database.HistoryTable import updateHistory, getHistory
 from DataManagement.Database.StrategyTable import getStrategiesNotProcessed
 from Backtesting.SimulationManager import SimulationManager
@@ -44,18 +45,21 @@ def runProcess(filenames, ticker):
                     strategies = getStrategiesNotProcessed(ticker, datestr, cursor)
 
                     if len(strategies > 0):
-                        simulationManager = SimulationManager(ticker, filename, datestr, selectHistoryResult, buystart, buystop)
+                        simulationManager = SimulationManager(ticker, filename, datestr, selectHistoryResult, BacktestBatchInsertManager(connection, cursor))
+                        
+                        
 
-                    count = 0
+                    # count = 0
                     for stratinfo in strategies:
-                        simulationManager.calculateAndInsertResult(stratinfo, cursor)
-                        count += 1
-                        if count >= 1000: # commit regularly to optimize speed
-                            connection.commit()
-                            count = 0
+                        simulationManager.calculateAndInsertResult(stratinfo)
+                        # count += 1
+                        # if count >= 1000: # commit regularly to optimize speed
+                        #     connection.commit()
+                        #     count = 0
+
 
                     # commit after to catch any leftovers that were processed
-                    connection.commit()
+                    simulationManager.finish()
                             
 
     except Error as e:
