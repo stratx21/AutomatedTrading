@@ -10,12 +10,13 @@ from multiprocessing import Process
 import time 
 from Strategies.Strategy import Strategy 
 from mysql.connector import connect, Error 
-import gc
 from DataManagement.Database.BacktestTable import insertBacktest
 from DataManagement.Database.HistoryTable import updateHistory, getHistory
 from DataManagement.Database.StrategyTable import getStrategiesNotProcessed
 import CredentialsConfig.db_auth_config as db_auth_config
 
+# TODO create object with this data ? StrategySimulationManager
+# TODO idea: store data from file in array, and reuse 
 def calculateAndInsertResult(ticker, stratinfo, filename, datestr, selectHistoryResult, buystart, buystop, cursor):
     #              0     1            2       3       4            5
     # stratinfo: (id, name, aggregation, param1, param2, options_str)
@@ -37,7 +38,7 @@ def calculateAndInsertResult(ticker, stratinfo, filename, datestr, selectHistory
             strategy.addPrice(float(priceEntry))
 
     strategy.enablePostHistory()
-    strategy.disable()
+    strategy.disable() # so it will not send orders - simulate 
 
     with open(filename, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -72,6 +73,7 @@ def calculateAndInsertResult(ticker, stratinfo, filename, datestr, selectHistory
                 lastAsk = float(row['Ask'])
                 strategy.setLastAsk(lastAsk)
 
+            # TODO fix this order
             if ticker not in config.TICKERS_TO_AVG_BA and ticker not in config.TICKERS_TO_USE_ASK:
                 if 'Last' in row.keys() and len(row['Last']) > 0:
                     strategy.addPrice(float(row['Last']))
@@ -83,22 +85,11 @@ def calculateAndInsertResult(ticker, stratinfo, filename, datestr, selectHistory
                 if lastBid != None and lastAsk != None:
                     strategy.addPrice((lastAsk + lastBid)/2.0)
 
-        del reader
-        del first
-        del lastBid 
-        del lastAsk 
-        gc.collect()
-
     # add last entry for total data per each day, looping has finished 
     if strategy.inPosition:
         strategy.sell() # force it to sell at EOD
     
     insertBacktest(cursor, ticker, stratinfo, datestr, strategy.getProfitSoFar(), strategy.getTradesSoFar())
-    
-    # connection.commit()
-
-    del strategy 
-    gc.collect()
 
 
 
@@ -139,9 +130,6 @@ def runProcess(filenames, ticker):
                             count = 0
 
                     connection.commit()
-
-                    del selectHistoryResult
-                    gc.collect()
                             
 
     except Error as e:
