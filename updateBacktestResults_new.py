@@ -1,9 +1,9 @@
-from time import time
+# from time import time
 import tkinter as tk 
 import tkinter.filedialog as filedialog
-import Strategies.StrategyCreator as StrategyCreator
-import Terminal.TerminalStrings as TerminalStrings
-import csv 
+# import Strategies.StrategyCreator as StrategyCreator
+# import Terminal.TerminalStrings as TerminalStrings
+# import csv 
 import datetime 
 import config 
 from multiprocessing import Process 

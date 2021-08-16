@@ -7,12 +7,13 @@ import config
 
 class SimulationManager:
 
+    # TODO remove buystart and buystop 
     def __init__(self, ticker, filename, datestr, selectHistoryResult, buystart, buystop):
         self.ticker = ticker
         self.filename = filename 
         self.datestr = datestr 
-        self.buystart = buystart 
-        self.buystop = buystop
+        # self.buystart = buystart 
+        # self.buystop = buystop
 
         # set the history data from DB to be used
         self.selectHistoryResult = []
