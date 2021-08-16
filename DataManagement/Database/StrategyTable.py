@@ -1,4 +1,4 @@
-from mysql.connector import connect, Error 
+from mysql.connector import connect
 from Backtesting.BacktestConfigMediator import getAllOptionsToTest, getStrategyInfoToTest
 
 # unused?
@@ -44,7 +44,9 @@ def insertStrategyIntoDB(name, aggregation, param1, param2, optionsString, curso
         optionsString))
 
 
-
+# update strategy table by adding any permutations 
+#   that do not exist in the table yet. 
+# (standalone function to be called on its own)
 def updateStrategyTable():
     with connect(
         host="localhost",
@@ -81,7 +83,7 @@ def updateStrategyTable():
             connection.commit()
 
 
-
+# get strategies that do not yet have a backtest entry for the given date and ticker
 def getStrategiesNotProcessed(ticker, datestr, cursor):
     cursor.execute("""
         SELECT *
@@ -97,3 +99,6 @@ def getStrategiesNotProcessed(ticker, datestr, cursor):
     return cursor.fetchall()
 
 
+def getStrategiesCount(cursor):
+    cursor.execute("""SELECT count(*) FROM trading.strategy""")
+    return cursor.fetchall()

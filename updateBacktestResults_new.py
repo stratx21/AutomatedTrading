@@ -43,16 +43,18 @@ def runProcess(filenames, ticker):
 
                     strategies = getStrategiesNotProcessed(ticker, datestr, cursor)
 
-                    simulationManager = SimulationManager(ticker, filename, datestr, selectHistoryResult, buystart, buystop)
+                    if len(strategies > 0):
+                        simulationManager = SimulationManager(ticker, filename, datestr, selectHistoryResult, buystart, buystop)
 
                     count = 0
                     for stratinfo in strategies:
                         simulationManager.calculateAndInsertResult(stratinfo, cursor)
                         count += 1
-                        if count >= 1000:
+                        if count >= 1000: # commit regularly to optimize speed
                             connection.commit()
                             count = 0
 
+                    # commit after to catch any leftovers that were processed
                     connection.commit()
                             
 
