@@ -44,35 +44,26 @@ def runProcess(filenames, ticker):
 
                     strategies = getStrategiesNotProcessed(ticker, datestr, cursor)
 
-                    if len(strategies > 0):
+                    if len(strategies) > 0:
                         simulationManager = SimulationManager(ticker, filename, datestr, selectHistoryResult, BacktestBatchInsertManager(connection, cursor))
-                        
-                        
 
-                    # count = 0
-                    for stratinfo in strategies:
-                        simulationManager.calculateAndInsertResult(stratinfo)
-                        # count += 1
-                        # if count >= 1000: # commit regularly to optimize speed
-                        #     connection.commit()
-                        #     count = 0
+                        for stratinfo in strategies:
+                            simulationManager.calculateAndInsertResult(stratinfo)
 
-
-                    # commit after to catch any leftovers that were processed
-                    simulationManager.finish()
+                        # commit after to catch any leftovers that were processed
+                        simulationManager.finish()
                             
 
     except Error as e:
         print("error with db: ", e)
 
     doneTime = time.time()
-    elapsedSeconds = int(start_timer - doneTime)
+    elapsedSeconds = int(doneTime - start_timer)
     print("done testing with streamed tick data for", 
         ticker + ". End time:", 
         datetime.datetime.fromtimestamp(doneTime), 
         "elapsed time:", 
-        int(elapsedSeconds/360) + "h " + int((elapsedSeconds/60) % 60) + "m " + (elapsedSeconds % 60) + "s",
-        "AKA " + elapsedSeconds + " seconds (cheeck me then delete me)")
+        str(int(elapsedSeconds/3600)) + "h " + str(int((elapsedSeconds/60) % 60)) + "m " + str((elapsedSeconds % 60)) + "s")
     # print(str(entriesAddedCount), "entries added,", str(entriesAlreadyExistedCount), "entries already existed.")
 
 
@@ -96,7 +87,7 @@ def run():
 
     # update history
     print("updating history...")
-    updateHistory(filesPerTicker.keys())
+    # updateHistory(filesPerTicker.keys())
 
     print("\n========================================\n")
     print("Running update backtest results...")

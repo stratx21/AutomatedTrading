@@ -61,7 +61,7 @@ class SimulationManager:
     ################################################################### 
     # price adding functions: 
     def addLastPrice(self, strategy, last):
-        if last:
+        if last != None:
             strategy.addPrice(last)
 
     def addAskAsPrice(self, strategy, last):
@@ -123,10 +123,10 @@ class SimulationManager:
             #         if strategy.inPosition:
             #             strategy.sell() # force it to sell at EOD
 
-            if row['Bid']:
-                strategy.setLastBid(lastBid)
-            if row['Ask']:
-                strategy.setLastAsk(lastAsk)
+            if row['Bid'] != None:
+                strategy.setLastBid(row['Bid'])
+            if row['Ask'] != None:
+                strategy.setLastAsk(row['Ask'])
 
             self.functionForAddingPrice(strategy, row['Last'])
             

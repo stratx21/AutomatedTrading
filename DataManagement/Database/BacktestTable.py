@@ -62,7 +62,7 @@ class BacktestBatchInsertManager:
     def insert(self, ticker, strategy_id, date, profit, trades):
         if self.valuesCount > 0:
             self.query += ","
-        self.query += " (" + ticker + ", " + str(strategy_id) + ", " + date + ", " + str(profit) + ", " + str(trades) + ")"
+        self.query += " (\"" + ticker + "\", " + str(strategy_id) + ", \"" + date + "\", " + str(profit) + ", " + str(trades) + ")"
         self.valuesCount += 1
 
         if self.valuesCount >= BacktestBatchInsertManager.VALUES_BUFFER_SIZE:
