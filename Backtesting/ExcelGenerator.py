@@ -21,18 +21,19 @@ class ExcelGenerator:
                 FROM ( \
                     SELECT optComp.strat_name, optComp.aggregation, optComp.param1, optComp.param2, optComp.totalProfit \
                     FROM ( \
-                        SELECT strat_name, aggregation, param1, param2, options_str, SUM(profit) as totalProfit \
-                        FROM trading.backtesting_results as res \
+                        SELECT strategy.name as strat_name, strategy.aggregation, strategy.param1, strategy.param2, strategy.options_str, SUM(backtest.profit) as totalProfit \
+                        FROM trading.backtest as backtest, trading.strategy as strategy \
                         WHERE  \
-                            ticker = %s \
-                        GROUP BY strat_name, aggregation, param1, param2, options_str \
+                            backtest.ticker = %s \
+                            AND backtest.strategy_id = strategy.id \
+                        GROUP BY strategy.id \
                         ORDER BY totalProfit DESC \
                     ) as optComp \
                     GROUP BY strat_name, aggregation, param1, param2 \
                     ORDER BY totalProfit DESC \
                 ) as result \
                 WHERE result.totalProfit > 0 \
-                LIMIT 75" % \
+                LIMIT 50" % \
                 ("\"" + self.ticker + "\""))
 
             stratinfos = cursor.fetchall()
