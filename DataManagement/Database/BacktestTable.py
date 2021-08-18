@@ -1,6 +1,6 @@
 
-
-def insertBacktest(cursor, ticker, stratinfo, datestr, profit, trades):
+# unused ? 
+def insertBacktest(cursor, ticker, stratinfo, datestr, profit, trades, optionsStr):
 
     cursor.execute("""
         INSERT INTO trading.backtest
@@ -16,11 +16,11 @@ def insertBacktest(cursor, ticker, stratinfo, datestr, profit, trades):
         datestr, \
         profit, \
         trades, \
+        stratinfo[0], \
         stratinfo[1], \
-        stratinfo[2], \
+        (str(stratinfo[2]) if stratinfo[2] != None else "None"), \
         (str(stratinfo[3]) if stratinfo[3] != None else "None"), \
-        (str(stratinfo[4]) if stratinfo[4] != None else "None"), \
-        stratinfo[5]))
+        optionsStr))
 
 
 def getBacktestResultsDbCount(cursor, ticker, stratinfo, optionsString, datestr):

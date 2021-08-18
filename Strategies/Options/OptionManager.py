@@ -114,7 +114,7 @@ class OptionManager:
 
     # translate from string: 
     def batchAddOptionFromString(self, stringOfOptions, strategy):
-        stripped = stringOfOptions.strip()
+        stripped = stringOfOptions.strip() # remove whitespace 
         if stripped != "None" and stripped != "":
             for optionStr in stringOfOptions.split("; "):
                 optionInput = optionStr.split() # " "

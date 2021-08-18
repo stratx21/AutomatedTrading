@@ -75,7 +75,6 @@ def getHistory(filename, cursor, ticker):
     startHistoryAtDatetime = historyStopDatetime - datetime.timedelta(days=daysToSubtract)
     startHistoryTimestamp = int(startHistoryAtDatetime.timestamp()*1000.0)
 
-    # print("start: ", str(startHistoryTimestamp), " , stop: ", historyStopTimetamp)
     cursor.execute("\
         SELECT open, low, high, close \
         FROM trading.history \
