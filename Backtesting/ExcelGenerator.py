@@ -7,7 +7,7 @@ class ExcelGenerator:
 
     def __init__(self, ticker):
         self.ticker = ticker 
-        self.workbook = xlsxwriter.Workbook(config.records_directory + config.report_prefix + ticker + ".xslx")
+        self.workbook = xlsxwriter.Workbook(config.records_directory + config.report_prefix + ticker + ".xlsx")
 
     def run(self):
         print("Generating report for " + self.ticker)
