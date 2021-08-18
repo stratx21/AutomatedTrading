@@ -16,6 +16,7 @@ class ExcelGenerator:
             password=db_auth_config.password,
             database=db_auth_config.database
         ) as connection, connection.cursor() as cursor:
+            # get top strategies ordered by highest profit (highest profit out of all options variations of the strategy)
             cursor.execute("\
                 SELECT result.strat_name, result.aggregation, result.param1, result.param2 \
                 FROM ( \
@@ -38,6 +39,7 @@ class ExcelGenerator:
 
             stratinfos = cursor.fetchall()
 
+            # (name, aggregation, param1, param2, id)
             for stratinfo in stratinfos: 
                 # create page for strategy
                 worksheetName = str(stratinfo[1]) \
@@ -66,21 +68,25 @@ class ExcelGenerator:
                 )
                 summary_row_start += 1
 
+                # get top 20 options strings and respective strategy ids for 
+                #   each strategy variation that was profitable, ordered by profit 
                 cursor.execute("\
-                    SELECT options_str \
+                    SELECT result.options_str, result.strategy_id \
                     FROM (\
-                        SELECT options_str, SUM(profit) as totalProfit \
-                        FROM trading.backtesting_results as res \
+                        SELECT strategy.options_str as options_str, strategy.id as strategy_id, SUM(backtest.profit) as totalProfit \
+                        FROM trading.backtest as backtest, trading.strategy as strategy \
                         WHERE \
-                            ticker = %s\
-                            AND strat_name = %s\
-                            AND aggregation = %s\
-                            AND param1 = %s\
-                            AND param2 = %s\
+                            backtest.ticker = %s\
+                            AND strategy.name = %s\
+                            AND strategy.aggregation = %s\
+                            AND strategy.param1 = %s\
+                            AND strategy.param2 = %s\
+                            AND strategy.id = backtest.strategy_id \
                         GROUP BY options_str\
                         ORDER BY totalProfit DESC\
                         ) as result \
-                    WHERE result.totalProfit > 0" % \
+                    WHERE result.totalProfit > 0\
+                    LIMIT 20" % \
                     ("\"" + self.ticker + "\"", \
                     "\"" + stratinfo[0] + "\"", \
                     "\"" + str(stratinfo[1]) + "\"", \
@@ -89,29 +95,28 @@ class ExcelGenerator:
                 optionsStrings = cursor.fetchall()
 
                 noneOption = "None"
-                if (noneOption,) in optionsStrings:
-                    optionsStrings.remove((noneOption,))
-                    optionsStrings.insert(0, (noneOption,))
+                for optionStringTuple in optionsStrings:
+                    if optionsStringTuple[0] == noneOption: # TODO use optionStringTuple instead of toSwitch
+                        toSwitch = optionStringTuple 
+                        optionsStrings.remove(toSwitch)
+                        optionsStrings.insert(0, toSwitch)
+
+                # if (noneOption,) in optionsStrings:
+                #     optionsStrings.remove((noneOption,))
+                #     optionsStrings.insert(0, (noneOption,))
 
                 for optionsStringTuple in optionsStrings:
                     optionsString = optionsStringTuple[0]
+                    strategy_id = optionsStringTuple[1]
+
+                    # get data for the strategy for each day
                     cursor.execute("\
                         SELECT date, profit, trades \
-                        FROM trading.backtesting_results \
+                        FROM trading.backtest \
                         WHERE \
-                            ticker = %s\
-                            AND strat_name = %s\
-                            AND aggregation = %s\
-                            AND param1 = %s\
-                            AND param2 = %s\
-                            AND options_str = %s\
+                            strategy_id = %s\
                         ORDER BY date ASC" % \
-                        ("\"" + self.ticker + "\"", \
-                        "\"" + stratinfo[0] + "\"", \
-                        "\"" + str(stratinfo[1]) + "\"", \
-                        "\"" + stratinfo[2] + "\"", \
-                        "\"" + stratinfo[3] + "\"", \
-                        "\"" + optionsString + "\""))
+                        (str(strategy_id), ))
 
                     # = all entries for this strategy, ordered by date
                     backtestEntries = cursor.fetchall()
