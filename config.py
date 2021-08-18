@@ -20,7 +20,7 @@ def get_trade_records_directory():
 #NOTE : if market is closed on a Monday, Tuesday won't get enough data
 days_of_history_to_get = 1
 
-TICKERS_TO_AVG_BA = ["VDE", "GUSH", "LABU", "LABD", "UVXY", "UCO"]
+TICKERS_TO_AVG_BA = ["VDE", "GUSH", "LABU", "LABD", "UVXY", "UCO", "FAS", "NAIL", "TNA"]
 TICKERS_TO_USE_ASK= []
 
 # TODO remove the isJH2 stuff everywhere if the same token can be used twice 
