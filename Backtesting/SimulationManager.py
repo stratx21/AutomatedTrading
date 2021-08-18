@@ -2,6 +2,7 @@ import csv
 import datetime
 import Strategies.StrategyCreator as StrategyCreator
 import config 
+import time 
 
 
 class SimulationManager:
@@ -12,8 +13,6 @@ class SimulationManager:
         self.filename = filename 
         self.datestr = datestr 
         self.backtestBatchInsertManager = backtestBatchInsertManager
-        # self.buystart = buystart 
-        # self.buystop = buystop
 
         # set the history data from DB to be used
         self.selectHistoryResult = []
@@ -28,24 +27,25 @@ class SimulationManager:
         with open(filename, newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                row['Timestamp'] = datetime.datetime.fromtimestamp(float(row['Timestamp'])/1000.0)
+                data = {}
+                data['Timestamp'] = datetime.datetime.fromtimestamp(float(row['Timestamp'])/1000.0)
 
                 if 'Last' in row.keys() and len(row['Last']) > 0:
-                    row['Last'] = float(row['Last'])
+                    data['Last'] = float(row['Last'])
                 else:
-                    row['Last'] = None 
+                    data['Last'] = None 
 
                 if 'Bid' in row.keys()  and len(row['Bid']) > 0:
-                    row['Bid'] = float(row['Bid'])
+                    data['Bid'] = float(row['Bid'])
                 else:
-                    row['Bid'] = None 
+                    data['Bid'] = None 
 
                 if 'Ask' in row.keys()  and len(row['Ask']) > 0:
-                    row['Ask'] = float(row['Ask'])
+                    data['Ask'] = float(row['Ask'])
                 else:
-                    row['Ask'] = None 
+                    data['Ask'] = None 
                 
-                self.fileData.append(row)
+                self.fileData.append(data)
 
         # assign the function to use for adding a price to the strategy
         if self.ticker in config.TICKERS_TO_USE_ASK:
@@ -61,8 +61,8 @@ class SimulationManager:
     ################################################################### 
     # price adding functions: 
     def addLastPrice(self, strategy, last):
-        if last != None:
-            strategy.addPrice(last)
+        if last != None and last != "":
+            strategy.addPrice(float(last))
 
     def addAskAsPrice(self, strategy, last):
         # no check for ask is None, assuming since first data entry includes all data (includes bid and ask)
@@ -93,43 +93,32 @@ class SimulationManager:
             print("error, failed to create strategy for ticker ", self.ticker, ":", *stratinfo)
             return
         
+        # add opts:
+        strategy.batchAddOptionFromString(stratinfo[5])
+
         # add history 
         for historyRow in self.selectHistoryResult:
             for priceEntry in historyRow:
                 strategy.addPrice(priceEntry)
 
+        # if strategy.getProfitSoFar() > 0 or strategy.getTradesSoFar() > 0:
+        #     print("Error: profit or trades > 0 right after history in backtest!")
+
         strategy.enablePostHistory()
         strategy.disable() # so it will not send orders - simulate 
 
-        lastBid = None 
-        lastAsk = None 
         for row in self.fileData:
-            # tmstmp = float(row['Timestamp'])/1000.0
-            timestampDatetime = row['Timestamp'] # datetime.datetime.fromtimestamp(tmstmp)
+            timestampDatetime = row['Timestamp']
             config.simulatingTimeStamp = timestampDatetime
-            
             if strategy.isInPosition() and config.isAfterTime(timestampDatetime, config.AUTOSELL_FOR_CLOSE):
                 strategy.sell() # force it to sell at EOD
-            
-            
-            # if config.withinBuyingTimeConstraint(self.buystart, self.buystop):
-            #     if first:
-            #         first = False 
-            #         # NOTE start of a new day
-            # else:
-            #     if not first:
-            #         first = True 
-            #         # NOTE reached end of day 
-            #         if strategy.inPosition:
-            #             strategy.sell() # force it to sell at EOD
 
-            if row['Bid'] != None:
+            if row['Bid'] != None: 
                 strategy.setLastBid(row['Bid'])
-            if row['Ask'] != None:
+            if row['Ask'] != None: 
                 strategy.setLastAsk(row['Ask'])
 
             self.functionForAddingPrice(strategy, row['Last'])
-            
 
         # check if still in position after tick stream file data is done  
         if strategy.inPosition:
