@@ -10,6 +10,7 @@ class ExcelGenerator:
         self.workbook = xlsxwriter.Workbook(config.records_directory + config.report_prefix + ticker + ".xslx")
 
     def run(self):
+        print("Generating report for " + self.ticker)
         with connect(
             host=db_auth_config.host,
             user=db_auth_config.user,
@@ -34,7 +35,7 @@ class ExcelGenerator:
                     ORDER BY totalProfit DESC \
                 ) as result \
                 WHERE result.totalProfit > 0 \
-                LIMIT 50" % \
+                LIMIT 25" % \
                 ("\"" + self.ticker + "\""))
 
             stratinfos = cursor.fetchall()
@@ -68,7 +69,7 @@ class ExcelGenerator:
                 )
                 summary_row_start += 1
 
-                # get top 20 options strings and respective strategy ids for 
+                # get top 10 options strings and respective strategy ids for 
                 #   each strategy variation that was profitable, ordered by profit 
                 cursor.execute("\
                     SELECT result.options_str, result.strategy_id \
@@ -86,7 +87,7 @@ class ExcelGenerator:
                         ORDER BY totalProfit DESC\
                         ) as result \
                     WHERE result.totalProfit > 0\
-                    LIMIT 20" % \
+                    LIMIT 10" % \
                     ("\"" + self.ticker + "\"", \
                     "\"" + stratinfo[0] + "\"", \
                     "\"" + str(stratinfo[1]) + "\"", \
@@ -95,9 +96,9 @@ class ExcelGenerator:
                 optionsStrings = cursor.fetchall()
 
                 noneOption = "None"
-                for optionStringTuple in optionsStrings:
-                    if optionsStringTuple[0] == noneOption: # TODO use optionStringTuple instead of toSwitch
-                        toSwitch = optionStringTuple 
+                for optionsStringTuple in optionsStrings:
+                    if optionsStringTuple[0] == noneOption: # TODO use optionsStringTuple instead of toSwitch
+                        toSwitch = optionsStringTuple 
                         optionsStrings.remove(toSwitch)
                         optionsStrings.insert(0, toSwitch)
 
@@ -115,8 +116,10 @@ class ExcelGenerator:
                         FROM trading.backtest \
                         WHERE \
                             strategy_id = %s\
+                            AND ticker = %s\
                         ORDER BY date ASC" % \
-                        (str(strategy_id), ))
+                        (str(strategy_id), \
+                        "\"" + self.ticker + "\""))
 
                     # = all entries for this strategy, ordered by date
                     backtestEntries = cursor.fetchall()
