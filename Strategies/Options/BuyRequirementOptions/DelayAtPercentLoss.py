@@ -39,5 +39,5 @@ class StopAtPercentLoss(Option):
         self.buyingDisabled = False 
 
     def disable(self):
-        self.canBuyAgainAt = TimeManagement.getCurrentTime() + timedelta.min(self.delayInMinutes)
+        self.canBuyAgainAt = TimeManagement.getCurrentTime() + timedelta(minutes=self.delayInMinutes)
         self.buyingDisabled = True 
