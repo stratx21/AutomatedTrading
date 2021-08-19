@@ -20,7 +20,17 @@ def addEntryStrategy(fileName, simulated, buysellorderstr, price):
 fieldsDataSave = ['Timestamp', 'Last', 'Bid', 'Ask', 'Volume']
 
 def createFileDataSave(ticker):
-    fileName = config.records_directory + str("stream_"+ticker + "__" + str(datetime.datetime.now()).replace(":","_").replace(" ","_") + ".csv")
+    ending = ".csv"
+    fileName = config.records_directory + str("stream_"+ticker + "__" + datetime.datetime.now().strftime("%Y-%m-%d"))
+    copy = 1
+    while os.path.isfile(fileName + ending):
+        if copy > 1:
+            # isn't the first copy: remove the ending to replace it
+            #  - remove 2 for ( and ), remove len of string of copy number
+            fileName = fileName[:(-2-(len(str(copy))))]
+        fileName += "(" + str(copy) + ")"
+        copy += 1 
+    fileName += ending 
     with open(fileName, "w", newline='') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(fieldsDataSave)

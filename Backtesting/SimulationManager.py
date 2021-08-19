@@ -2,6 +2,7 @@ import csv
 import datetime
 import Strategies.StrategyCreator as StrategyCreator
 import config 
+import Tools.TimeManagement as TimeManagement
 import time 
 
 
@@ -109,8 +110,11 @@ class SimulationManager:
 
         for row in self.fileData:
             timestampDatetime = row['Timestamp']
+            # NOTE: if modifications cause processing multiple strategies at once, 
+            #  never have config.simulatingTimeStamp set differently within the same process
             config.simulatingTimeStamp = timestampDatetime
-            if strategy.isInPosition() and config.isAfterTime(timestampDatetime, config.AUTOSELL_FOR_CLOSE):
+
+            if strategy.isInPosition() and TimeManagement.pastForceSellEOD():
                 strategy.sell() # force it to sell at EOD
 
             if row['Bid'] != None: 

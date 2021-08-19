@@ -98,7 +98,7 @@ cleaning code:
   - create map for each run type (trade, vs save stream), mapping string to function for each possible command 
 - remove the isJH2 stuff everywhere if the same token can be used twice 
 - change renko_bah to green count > red count - more reliable 
-- update config.marketIsOpen to be updated by a timer or something rather than checking current time every time (difficult because of different processes)
+- update TimeManagement.marketIsOpen for live application to be updated by a timer or something rather than checking current time every time (difficult because of different processes)
 
 
 

@@ -3,6 +3,7 @@ import Terminal.TerminalStrings as TerminalStrings
 from time import sleep 
 import json 
 import config 
+import Tools.TimeManagement as TimeManagement
 import DataManagement.DataTransferStrings as DataTransferStrings
 from DataManagement.DataSaveMediator import DataSaveMediator
 from multiprocessing import Pipe, Process
@@ -111,7 +112,7 @@ class DataMediator:
 
                             # check if BA should be used, and update latest BA data (kept for avg)
                             useBA = False 
-                            if ticker in config.TICKERS_TO_AVG_BA and config.marketIsOpen():
+                            if ticker in config.TICKERS_TO_AVG_BA and TimeManagement.marketIsOpen():
                                 
                                 # data added now
 
@@ -125,7 +126,7 @@ class DataMediator:
 
 
                             # if
-                            if (not useBA) and ticker in config.TICKERS_TO_USE_ASK and config.marketIsOpen():
+                            if (not useBA) and ticker in config.TICKERS_TO_USE_ASK and TimeManagement.marketIsOpen():
                                 # use ask price to send to strategy 
                                 if newAsk != None:
                                     self.strategyManager.sendPrice(ticker, newAsk, newBid, newAsk)

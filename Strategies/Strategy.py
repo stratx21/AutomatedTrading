@@ -3,10 +3,10 @@
 from Strategies.Options.OptionManager import OptionManager
 import Terminal.TerminalStrings as TerminalStrings
 import Network.Orders as Orders
-import Strategies.StrategyRecordWriter as StrategyRecordWriter
+import Tools.RecordWriter as StrategyRecordWriter
 import config 
+import Tools.TimeManagement as TimeManagement
 from UI.ProcessLoggingWindow import ProcessLogWindowManager
-from Terminal import TerminalTools
 import datetime
 import threading 
 
@@ -165,7 +165,7 @@ class Strategy:
 
     def buy(self):
         # history has been entered and current time is acceptable in time constraint 
-        if self.historyFinished and config.withinBuyingTimeConstraint(self.buy_start, self.buy_stop):
+        if self.historyFinished and TimeManagement.withinBuyingTimeConstraint(self.buy_start, self.buy_stop):
             if self.optionManager.isOkToBuy(self):
                 if self.isEnabled():
                     Orders.sendBuyMarketOrder(self.ticker, self.quantity)
@@ -186,7 +186,7 @@ class Strategy:
         # if still entering history, do nothing
 
     def sell(self):
-        if self.historyFinished and config.withinSellingTimeConstraint():
+        if self.historyFinished and TimeManagement.withinSellingTimeConstraint():
             if self.isEnabled():
                 Orders.sendSellMarketOrder(self.ticker, self.quantity)
             profit = self.getLastBid() - self.boughtPrice

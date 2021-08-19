@@ -1,7 +1,7 @@
 
 import DataManagement.DataTransferStrings as DataTransferStrings
 import Terminal.TerminalStrings as TerminalStrings
-import Strategies.StrategyRecordWriter as StrategyRecordWriter
+import Tools.RecordWriter as RecordWriter
 import json 
 
 
@@ -35,7 +35,7 @@ class DataSaveMediator:
 
                         #has last price - record last and timestamp
                         if ticker not in self.csvFiles.keys():
-                            self.csvFiles[ticker] = StrategyRecordWriter.createFileDataSave(ticker)
+                            self.csvFiles[ticker] = RecordWriter.createFileDataSave(ticker)
 
                         # runs if first - key error does not occur 
                         last = stockContent[DataTransferStrings.LAST_PRICE_KEY] if DataTransferStrings.LAST_PRICE_KEY in stockContent.keys() else "" 
@@ -43,7 +43,7 @@ class DataSaveMediator:
                         ask  = stockContent[DataTransferStrings.ASK_PRICE_KEY] if DataTransferStrings.ASK_PRICE_KEY in stockContent.keys() else "" 
                         vol  = stockContent[DataTransferStrings.VOLUME_KEY] if DataTransferStrings.VOLUME_KEY in stockContent.keys() else "" 
 
-                        StrategyRecordWriter.addEntryDataSave(self.csvFiles[ticker], timestamp, last, bid, ask, vol)
+                        RecordWriter.addEntryDataSave(self.csvFiles[ticker], timestamp, last, bid, ask, vol)
                         
                         
                              

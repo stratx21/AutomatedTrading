@@ -1,4 +1,4 @@
-from datetime import datetime, time  
+from datetime import time  
 
 
 
@@ -65,37 +65,3 @@ refresh_token_expires_days = 90
 
 #ms delay if pipe has no data to check again in ms 
 DELAY_PIPE_CHECKING = 100 
-
-# check_time is before is_before
-def isBeforeTime(check_time, is_before):
-    return (check_time.hour < is_before.hour or (check_time.hour == is_before.hour and  check_time.minute <= is_before.minute))
-
-# check_time is after is_after
-def isAfterTime(check_time, is_after):
-    return (is_after.hour < check_time.hour or (is_after.hour == check_time.hour and is_after.minute <= check_time.minute))
-
-
-def marketIsOpen():
-    if not simulating:
-        check_time = datetime.now()
-        return isAfterTime(check_time, MARKET_OPEN) and isBeforeTime(check_time, MARKET_CLOSE)
-    else:
-        simulatingTimeStamp != None \
-            and isAfterTime(simulatingTimeStamp, MARKET_OPEN) and isBeforeTime(simulatingTimeStamp, MARKET_CLOSE)
-
-
-
-def withinBuyingTimeConstraint(start, stop):
-    if not simulating:
-        check_time = datetime.now()
-        return isAfterTime(check_time, start) and isBeforeTime(check_time, stop) 
-    else:
-        return simulatingTimeStamp != None \
-            and isAfterTime(simulatingTimeStamp, start) and isBeforeTime(simulatingTimeStamp, stop)
-
-def withinSellingTimeConstraint():
-    if not simulating:
-        check_time = datetime.now()
-        return isAfterTime(check_time, sell_start)
-    else:
-        return isAfterTime(simulatingTimeStamp, sell_start)

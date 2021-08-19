@@ -1,6 +1,7 @@
 import tkinter as tk 
 import tkinter.filedialog as filedialog
 import Strategies.StrategyCreator as StrategyCreator
+import Tools.TimeManagement as TimeManagement
 import Terminal.TerminalStrings as TerminalStrings
 import csv 
 from datetime import datetime 
@@ -117,11 +118,11 @@ def run():
                             lastTime = timestampDatetime
                             config.simulatingTimeStamp = timestampDatetime
                             
-                            if config.isAfterTime(timestampDatetime, config.AUTOSELL_FOR_CLOSE):
+                            if TimeManagement.pastForceSellEOD():
                                 if strategy.inPosition:
                                         strategy.sell() # force it to sell at EOD
                             
-                            if config.withinBuyingTimeConstraint(buystart, buystop):
+                            if TimeManagement.withinBuyingTimeConstraint(buystart, buystop):
                                 if first:
                                     first = False 
                                     # NOTE start of a new day

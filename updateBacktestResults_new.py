@@ -87,7 +87,7 @@ def run():
 
     # update history
     print("updating history...")
-    updateHistory(filesPerTicker.keys()) 
+    # updateHistory(filesPerTicker.keys()) 
 
     print("\n========================================\n")
     print("Running update backtest results...")
