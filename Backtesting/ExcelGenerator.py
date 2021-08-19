@@ -28,6 +28,7 @@ class ExcelGenerator:
                         WHERE  \
                             backtest.ticker = %s \
                             AND backtest.strategy_id = strategy.id \
+                            AND strategy.disabled = 0 \
                         GROUP BY strategy.id \
                         ORDER BY totalProfit DESC \
                     ) as optComp \
@@ -83,6 +84,7 @@ class ExcelGenerator:
                             AND strategy.param1 = %s\
                             AND strategy.param2 = %s\
                             AND strategy.id = backtest.strategy_id \
+                            AND strategy.disabled = 0 \
                         GROUP BY options_str\
                         ORDER BY totalProfit DESC\
                         ) as result \
