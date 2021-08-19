@@ -1,5 +1,6 @@
 from Terminal import TerminalStrings
 from Strategies.Options.BuyRequirementOptions.StopAtPercentLoss import StopAtPercentLoss
+from Strategies.Options.BuyRequirementOptions.DelayAtPercentLoss import DelayAtPercentLoss
 from Strategies.Options.SellOnPriceAddOptions.TSFH import TSFH
 from Strategies.Options.SellOnPriceAddOptions.TSFHP import TSFHP
 from Strategies.Options.SellOnPriceAddOptions.OCO import OCO
@@ -26,6 +27,19 @@ class OptionManager:
                 self.optionsAtBuy.append(optionAdded)
             except ValueError:
                 print(TerminalStrings.ERROR + " OPT arg \"" + str(optArg1) + "\" is not a number, is invalid. Not adding OPT.")
+                return
+            except IndexError:
+                print(TerminalStrings.ERROR + " OPT argument missing: first argument of percentage for " + optionAdded.IDENTIFIER)
+                return 
+
+        if optChoice == DelayAtPercentLoss.IDENTIFIER:
+            try:
+                optArg1 = optArgs[0]
+                optArg2 = optArgs[1]
+                optionAdded = DelayAtPercentLoss(float(optArg1), int(optArg2))
+                self.optionsAtBuy.append(optionAdded)
+            except ValueError:
+                print(TerminalStrings.ERROR + " OPT arg \"" + str(optArg1) + "\" or \"" + str(optArg2) + "\" is not a number, is invalid. Not adding OPT.")
                 return
             except IndexError:
                 print(TerminalStrings.ERROR + " OPT argument missing: first argument of percentage for " + optionAdded.IDENTIFIER)
