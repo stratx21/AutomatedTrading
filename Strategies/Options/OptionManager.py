@@ -32,7 +32,7 @@ class OptionManager:
                 print(TerminalStrings.ERROR + " OPT argument missing: first argument of percentage for " + optionAdded.IDENTIFIER)
                 return 
 
-        if optChoice == DelayAtPercentLoss.IDENTIFIER:
+        elif optChoice == DelayAtPercentLoss.IDENTIFIER:
             try:
                 optArg1 = optArgs[0]
                 optArg2 = optArgs[1]

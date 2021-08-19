@@ -1,3 +1,4 @@
+import os
 import Strategies.StrategyCreator as StrategyCreator
 import json
 from Strategies.StrategyManager import StrategyManager
@@ -13,6 +14,7 @@ import Terminal.TerminalStrings as TerminalStrings
 import DataManagement.Auth.auth as auth
 import DataManagement.DataTransferStrings as DataTransferStrings
 from time import sleep 
+import config 
 
 
 nest_asyncio.apply() 
@@ -120,6 +122,9 @@ if __name__ == '__main__':
                 tickersString = tickersString[:-1] # remove comma at the end 
                 TDA_Process = Process(target = runTDA, args = (TDA_Send, tickersString))
 
+                # add records/trades dir if it doesn't exist to prepare for records 
+                if not os.path.exists(config.get_trade_records_directory()):
+                    os.makedirs(config.get_trade_records_directory())
 
                 # update with price history before TDA streaming starts: 
                 for tickr in strategies.keys():

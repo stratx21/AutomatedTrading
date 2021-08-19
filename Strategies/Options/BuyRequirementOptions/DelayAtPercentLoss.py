@@ -8,7 +8,7 @@ from datetime import timedelta
 #   percent loss again, and then be disabled for the same time. 
 
 # an on attempted buy option
-class StopAtPercentLoss(Option):
+class DelayAtPercentLoss(Option):
     IDENTIFIER = "delayAtPercentLoss"
 
     def __init__(self, maxPercentLoss, delayInMinutes):
