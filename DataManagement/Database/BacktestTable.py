@@ -46,7 +46,8 @@ def getBacktestResultsDbCount(cursor, ticker, stratinfo, optionsString, datestr)
 
     return len(cursor.fetchall())
 
-
+def deleteByStrategyId(cursor, strategyId):
+    cursor.execute("""DELETE FROM trading.backtest WHERE strategy_id = %s""", (strategyId, ))
 
 class BacktestBatchInsertManager:
     VALUES_BUFFER_SIZE = 500
@@ -69,9 +70,10 @@ class BacktestBatchInsertManager:
             self.runQuery()
 
     def runQuery(self):
-        self.cursor.execute(self.query)
-        self.connection.commit()
-        self.resetQuery()
+        if self.cursor != None:
+            self.cursor.execute(self.query)
+            self.connection.commit()
+            self.resetQuery()
 
     def resetQuery(self):
         self.query = BacktestBatchInsertManager.QUERY_INITIAL

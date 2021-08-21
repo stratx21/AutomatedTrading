@@ -73,3 +73,8 @@ def getStrategiesNotProcessed(ticker, datestr, cursor):
 def getStrategiesCount(cursor):
     cursor.execute("""SELECT count(*) FROM trading.strategy""")
     return cursor.fetchall()
+
+
+def getDisabledStrategyIds(cursor):
+    cursor.execute("""SELECT id FROM trading.strategy WHERE disabled = 1""")
+    return cursor.fetchall()
