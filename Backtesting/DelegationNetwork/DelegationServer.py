@@ -8,10 +8,10 @@ import struct
 
 threadLock = threading.Lock() 
 workManager = WorkManager()
-outOfWork = False 
 
 def clientConnectionThreadHandler(connection, dbCursor):
     connection.send(str.encode('Connection with server initialized'))
+    outOfWork = False 
     while not outOfWork:
         data = connection.recv(2048)
         if not data:
@@ -19,7 +19,7 @@ def clientConnectionThreadHandler(connection, dbCursor):
             break
         dataStr = data.decode('utf-8')
         print("data from client:", dataStr)
-        
+
         reply = DTS.INVALID
         if dataStr == DTS.WORK_REQUEST:
             threadLock.acquire()
