@@ -18,7 +18,7 @@ def clientConnectionThreadHandler(connection, dbCursor):
             print("data was None!")
             break
         dataStr = data.decode('utf-8')
-        print("data from client:", dataStr)
+        # print("data from client:", dataStr)
 
         reply = DTS.INVALID
         if dataStr == DTS.WORK_REQUEST:
@@ -27,14 +27,14 @@ def clientConnectionThreadHandler(connection, dbCursor):
             threadLock.release()
 
         if reply == None:
-            print("out of work to delegate!")
+            print("out of work to delegate, closing connection")
             outOfWork = True
             reply = DTS.OUT_OF_WORK
 
         reply = struct.pack('>I', len(reply)) + str.encode(reply) 
         connection.sendall(reply)
     connection.close()
-    print("connection closed", str(connection))
+    print("connection closed")
 
 def runDelegationServer(dbCursor):
     serverSocket = socket.socket()

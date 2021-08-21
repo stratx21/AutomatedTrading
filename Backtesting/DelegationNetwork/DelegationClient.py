@@ -63,12 +63,18 @@ def runDelegationClient(id):
                 inputstr = DTS.WORK_REQUEST
                 clientSocket.send(str.encode(inputstr))
                 response = recv_msg(clientSocket).decode('utf-8')
+
+                if response == DTS.OUT_OF_WORK:
+                    print("Drone", id, "finished, no more work.")
+                    break
+
                 responseDict = json.loads(response)
+                strats = responseDict[DTS.STRATEGIES_KEY]
 
                 filename = responseDict[DTS.FILENAME_KEY]
-                print("Drone " + id + " starting new work")
+                print("Drone", id, "starting new work on", str(len(strats)), "strategies")
                 runDrone(
-                    responseDict[DTS.STRATEGIES_KEY],
+                    strats,
                     filename,
                     getTickerFromFilename(filename),
                     cursor,
