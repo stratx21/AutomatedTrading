@@ -4,23 +4,26 @@ import socket
 from _thread import start_new_thread
 import threading
 import Backtesting.DelegationNetwork.DelegationTransferStrings as DTS
+import struct
 
 threadLock = threading.Lock() 
 workManager = WorkManager()
 
 def clientConnectionThreadHandler(connection, dbCursor):
-    connection.send(str.encode('Welcome to the Server'))
+    connection.send(str.encode('Connection with server initialized'))
     while 1:
         data = connection.recv(2048)
-        print("data from client:", str(data))
         if not data:
             print("data was None!")
             break
+        dataStr = data.decode('utf-8')
+        print("data from client:", dataStr)
         reply = DTS.INVALID
-        if data == DTS.WORK_REQUEST:
+        if dataStr == DTS.WORK_REQUEST:
             threadLock.acquire()
             reply = workManager.getWorkJson(dbCursor)
             threadLock.release()
+        reply = struct.pack('>I', len(reply)) + reply 
         connection.sendall(str.encode(reply))
     connection.close()
     print("connection closed", str(connection))
