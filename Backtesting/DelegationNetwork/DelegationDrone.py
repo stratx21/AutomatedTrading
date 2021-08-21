@@ -26,11 +26,7 @@ def runDrone(strategies, filename, ticker, cursor, connection):
 
     simulationManager = SimulationManager(ticker, filename, datestr, selectHistoryResult, BacktestBatchInsertManager(connection, cursor))
 
-    lg = str(len(strategies))
-    ct = 0
     for stratinfo in strategies:
-        ct += 1
-        print("strategy " + str(ct) + "/" + lg)
         simulationManager.calculateAndInsertResult(stratinfo)
 
     # commit after to catch any leftovers that were processed

@@ -36,7 +36,7 @@ def recvall(sock, length):
 
 
 
-def runDelegationClient():
+def runDelegationClient(id):
     clientSocket = socket.socket()
     host = server_auth_config.host 
     port = delegation_server_config.port 
@@ -66,14 +66,13 @@ def runDelegationClient():
                 responseDict = json.loads(response)
 
                 filename = responseDict[DTS.FILENAME_KEY]
-                print("starting work!")
+                print("Drone " + id + " starting new work")
                 runDrone(
                     responseDict[DTS.STRATEGIES_KEY],
                     filename,
                     getTickerFromFilename(filename),
                     cursor,
                     connection)
-                print("finished work!")
 
     except Error as e:
         print("error with db: ", e)

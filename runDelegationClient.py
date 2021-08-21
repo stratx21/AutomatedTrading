@@ -8,7 +8,7 @@ if __name__ == '__main__':
 
         for i in range(processCount):
             print("starting process", str(i))
-            Process(target = runDelegationClient).start()
+            Process(target = runDelegationClient, args=(str(i),)).start()
 
         print("all client drone processes started. ")
     except (ValueError, IndexError) as e:
