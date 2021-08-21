@@ -11,6 +11,7 @@ def clientConnectionThreadHandler(connection):
             break
         connection.sendall(str.encode(reply))
     connection.close()
+    print("connection closed", str(connection))
 
 def runDelegationServer():
     serverSocket = socket.socket()
@@ -24,14 +25,15 @@ def runDelegationServer():
 
     threadCount = 0
 
-    print("Finished starting! Waiting for connections...")
+    print("Running server at " + host + ":" + str(port))
+    print(" Waiting for connections...")
     while 1:
-        Client, address = serverSocket.accept()
         serverSocket.listen(20)
+        Client, address = serverSocket.accept()
         print("client at", address[0] + ":" + str(address[1]), "connected")
         start_new_thread(clientConnectionThreadHandler, (Client, ))
         threadCount += 1
-        print("Clients connected:", str(threadCount))
+        print("total connections so far:", str(threadCount))
 
     serverSocket.close()
 
