@@ -88,8 +88,6 @@ def runDelegationClient(id):
     doneTime = time.time()
     elapsedSeconds = int(doneTime - start_timer)
     print("Client finished!", 
-        "End time:", 
-        datetime.datetime.fromtimestamp(doneTime), 
         "elapsed time:", 
         secondsToTimeDescription(elapsedSeconds))
 
