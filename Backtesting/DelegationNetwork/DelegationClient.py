@@ -1,4 +1,5 @@
 import json
+import sys
 import CredentialsConfig.server_auth_config as server_auth_config
 import Backtesting.DelegationNetwork.server_config as delegation_server_config
 import Backtesting.DelegationNetwork.DelegationTransferStrings as DTS
@@ -83,7 +84,7 @@ def runDelegationClient(id):
     except Error as e:
         print("error with db: ", e)
     except: 
-        print("ERROR: delegation client non-db error")
+        print("ERROR: delegation client non-db error:", sys.exc_info()[0])
 
     doneTime = time.time()
     elapsedSeconds = int(doneTime - start_timer)
