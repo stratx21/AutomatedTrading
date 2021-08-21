@@ -41,6 +41,8 @@ class WorkManager:
             self.currentWorkingFilename, ticker, datestr = getInfoFromFullFilename(fullFilename)
             self.strategiesChonksQueue = splitListIntoChonks(getStrategiesNotProcessed(ticker, datestr, cursor), WorkManager.STRATEGY_CHONK_SIZE)
 
+            print(str(len(self.filenames)), "files remaining to process.")
+
         return json.dumps({
             DTS.STRATEGIES_KEY: self.strategiesChonksQueue.pop(),
             DTS.FILENAME_KEY: self.currentWorkingFilename
