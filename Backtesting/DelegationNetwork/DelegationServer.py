@@ -23,8 +23,8 @@ def clientConnectionThreadHandler(connection, dbCursor):
             threadLock.acquire()
             reply = workManager.getWorkJson(dbCursor)
             threadLock.release()
-        reply = struct.pack('>I', len(reply)) + reply 
-        connection.sendall(str.encode(reply))
+        reply = struct.pack('>I', len(reply)) + str.encode(reply) 
+        connection.sendall(reply)
     connection.close()
     print("connection closed", str(connection))
 
