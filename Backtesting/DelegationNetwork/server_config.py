@@ -1,3 +1,3 @@
 
-port = 50001
+port = 1233
 host = 'localhost'
