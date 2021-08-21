@@ -1,24 +1,30 @@
 
 to add to automation software: 
-- fix dates in generated xslx
+- change db root password
+- add opt to track total of all negative trade profits, limit max total losses
+  - add opt for stop at, and an opt for delay at
+~? add table (or empty strategy row), track profit holding each day of data 
+  - useful to graph it to see actual change, holes in graph on TOS D chart 
+- add and total profit is not the same for each options_str permutation profit xlsx gen
+- fix update history db functionality to use all values in one insert 
+- how will the system work if a stock splits?
+- try to add reconnect or just continue on recv issue, check file update time if it happens overnight 
+- add opt to disallow buying for 2h after -x% profit 
+- add script to rename stream files 
+- make graph bigger - if possible 
 - add top 5 or 10 page to generated xslx
-- add volume to streamed saved data 
+- add trend following strategies
 - add minute based charts 
-- add opts to backtest results db and reportBacktest xlsx
 - try a variation of TSFH where x decreases as it goes up *(is this just simulating an OCO/PT bracket? - just add OCO/PT strategy)
 - add heiken ashi study
 - renko buy, sell on SMA ? find sells on buy conditions 
 - test GUSH with different time constraints
 - add study RSI 
 - add strategy RSI 
-- update backtesting system:
-  - add db of backtesting results 
-  - add get history functionality to backtesting - get history up to first timestamp
-- generate xslx with charts etc for backtesting 
 - allow multiple strategies for one stock 
-- add strategy range smi + range wcsmi
 - add strategy renko bah vs
 - add strategy MACD
+- create warning on run about if refresh token is going to expire soon.
 - add range and renko sma cross
   - permutations will add a lot of testing data 
   - add buy on cross, sell on cross below fast MA?
@@ -29,7 +35,7 @@ to add to automation software:
   - could buy with SMAG
 - add higher low SMI ? (for range and renko ?)
 - ! add quantity to strategy parameters
-- add volume to streaming ? 
+  - use $$ amount to alocate ? 
 - add writeline and replacelastline to ui logging window options 
 - add optional args to ui terminal title 
 - rename stream files to compact name on exit 
@@ -63,6 +69,8 @@ to add to automation software:
 
 =================================
 before running server 24/7:
+- when keeping streams of more than a day, reset profit so far for each day so opts will not keep it from trading the second day 
+  -and set another sell at EOD timer 
 - add is weekday to isWithinBuyTimeConstraint 
 - make new autosell timer per day 
 - make it so adding or removing a strategy will add/remove it real time 
@@ -98,7 +106,7 @@ cleaning code:
   - create map for each run type (trade, vs save stream), mapping string to function for each possible command 
 - remove the isJH2 stuff everywhere if the same token can be used twice 
 - change renko_bah to green count > red count - more reliable 
-- update TimeManagement.marketIsOpen for live application to be updated by a timer or something rather than checking current time every time (difficult because of different processes)
+- update config.marketIsOpen to be updated by a timer or something rather than checking current time every time (difficult because of different processes)
 
 
 
@@ -209,3 +217,28 @@ DONE:
 - range_smi_tsfh
 - range_con_tsfh
 - renko_wcsmi_tsfh
+- add volume to streamed saved data 
+- add volume to streaming ? 
+- add sheet name as entry above graph to search
+- add avg gain per week (and a % gain per week?) to xlsx
+- fix dates in generated xslx
+- generate xslx with charts etc for backtesting 
+- add strategy range smi + range wcsmi
+- update backtesting system:
+  - add db of backtesting results 
+  - add get history functionality to backtesting - get history up to first timestamp
+- initiate different sections of opts 
+- with adding opts, find highest gain option, sort that one as highest, but include all opt variants on the sheet (there could be a lot of opts eventually though..)
+- fix backtesting speed  
+- add opts to backtest results db and reportBacktest xlsx
+  - include options to test config file 
+  - add addMultipleOpts function to strategy, uses a string to interpret 
+- convert TSFH to an option 
+- add renko and range wcsmi_tsfh
+- ? add % options instead for tsfh and OCO option ? 
+  - adds a lot of permutations 
+- add sensitive data to gitignore config files 
+  - database user and password 
+  - developer credentials information 
+- test new stream file name system 
+- add disabled to strategy in db 
