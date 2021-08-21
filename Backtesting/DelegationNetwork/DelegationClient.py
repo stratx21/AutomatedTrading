@@ -7,7 +7,7 @@ def runDelegationClient():
     host = server_auth_config.host 
     port = delegation_server_config.port 
 
-    print("connecting...")
+    print("connecting to " + host + ":" + str(port) + " ...")
     try:
         clientSocket.connect((host, port))
     except socket.error as e:
