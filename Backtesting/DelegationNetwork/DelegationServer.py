@@ -23,6 +23,7 @@ def clientConnectionThreadHandler(connection, dbCursor):
             threadLock.release()
         connection.sendall(str.encode(reply))
     connection.close()
+    print("connection closed", str(connection))
 
 def runDelegationServer(dbCursor):
     serverSocket = socket.socket()
@@ -34,13 +35,13 @@ def runDelegationServer(dbCursor):
         print("Error binding host and port:", str(e))
         return 
 
-    threadCount = 0
-
-    print("Finished starting! Waiting for connections...")
+    print("Running server at " + host + ":" + str(port))
+    print(" Waiting for connections...")
     threads = []
+    threadCount = 0
     while 1:
-        Client, address = serverSocket.accept()
         serverSocket.listen(20)
+        Client, address = serverSocket.accept()
         print("client at", address[0] + ":" + str(address[1]), "connected")
         # start_new_thread(clientConnectionThreadHandler, (Client, ))
         thread = threading.Thread(target = clientConnectionThreadHandler, args = (Client, dbCursor))
