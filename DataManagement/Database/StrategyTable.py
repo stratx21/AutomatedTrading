@@ -1,6 +1,6 @@
 from mysql.connector import connect
 from Backtesting.BacktestConfigMediator import getAllOptionsToTest, getStrategyInfoToTest
-import CredentialsConfig.db_auth_config as db_auth_config
+import CredentialsConfig.server_auth_config as db_auth_config
 
 def insertStrategyIntoDB(name, aggregation, param1, param2, optionsString, cursor):
     cursor.execute("""
@@ -33,8 +33,8 @@ def insertStrategyIntoDB(name, aggregation, param1, param2, optionsString, curso
 def updateStrategyTable():
     with connect(
         host=db_auth_config.host,
-        user=db_auth_config.user,
-        password=db_auth_config.password,
+        user=db_auth_config.userDB,
+        password=db_auth_config.passwordDB,
         database=db_auth_config.database
     ) as connection, connection.cursor() as cursor:
         strategies = getStrategyInfoToTest()  

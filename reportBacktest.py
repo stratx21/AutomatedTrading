@@ -1,12 +1,12 @@
 from Backtesting.ExcelGenerator import ExcelGenerator
 from mysql.connector import connect, Error 
-import CredentialsConfig.db_auth_config as db_auth_config
+import CredentialsConfig.server_auth_config as db_auth_config
 
 def getAllTickersFromDb():
     with connect(
         host=db_auth_config.host,
-        user=db_auth_config.user,
-        password=db_auth_config.password,
+        user=db_auth_config.userDB,
+        password=db_auth_config.passwordDB,
         database=db_auth_config.database
     ) as connection, connection.cursor() as cursor:
         cursor.execute("\

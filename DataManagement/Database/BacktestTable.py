@@ -70,7 +70,7 @@ class BacktestBatchInsertManager:
             self.runQuery()
 
     def runQuery(self):
-        if self.cursor != None:
+        if self.cursor != None and self.valuesCount > 0:
             self.cursor.execute(self.query)
             self.connection.commit()
             self.resetQuery()

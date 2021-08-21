@@ -3,7 +3,7 @@ import Network.TDAmeritrade as TDAmeritrade
 import DataManagement.DataTransferStrings as DataTransferStrings
 import DataManagement.Auth.auth as auth
 from mysql.connector import connect, Error 
-import CredentialsConfig.db_auth_config as db_auth_config
+import CredentialsConfig.server_auth_config as db_auth_config
 import datetime 
 import csv 
 
@@ -13,8 +13,8 @@ def updateHistory(tickers):
     auth.runUpdateToken()
     with connect(
             host=db_auth_config.host,
-            user=db_auth_config.user,
-            password=db_auth_config.password,
+            user=db_auth_config.userDB,
+            password=db_auth_config.passwordDB,
             database=db_auth_config.database
         ) as connection:
         with connection.cursor() as cursor:
