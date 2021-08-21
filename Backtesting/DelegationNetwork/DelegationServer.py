@@ -26,8 +26,8 @@ def runDelegationServer():
 
     print("Finished starting! Waiting for connections...")
     while 1:
-        serverSocket.listen(20)
         Client, address = serverSocket.accept()
+        serverSocket.listen(20)
         print("client at", address[0] + ":" + str(address[1]), "connected")
         start_new_thread(clientConnectionThreadHandler, (Client, ))
         threadCount += 1
