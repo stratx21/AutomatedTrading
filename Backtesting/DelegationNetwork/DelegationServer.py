@@ -8,21 +8,29 @@ import struct
 
 threadLock = threading.Lock() 
 workManager = WorkManager()
+outOfWork = False 
 
 def clientConnectionThreadHandler(connection, dbCursor):
     connection.send(str.encode('Connection with server initialized'))
-    while 1:
+    while not outOfWork:
         data = connection.recv(2048)
         if not data:
             print("data was None!")
             break
         dataStr = data.decode('utf-8')
         print("data from client:", dataStr)
+        
         reply = DTS.INVALID
         if dataStr == DTS.WORK_REQUEST:
             threadLock.acquire()
             reply = workManager.getWorkJson(dbCursor)
             threadLock.release()
+
+        if reply == None:
+            print("out of work to delegate!")
+            outOfWork = True
+            reply = DTS.OUT_OF_WORK
+
         reply = struct.pack('>I', len(reply)) + str.encode(reply) 
         connection.sendall(reply)
     connection.close()

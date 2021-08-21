@@ -34,6 +34,9 @@ class WorkManager:
     def getWorkJson(self, cursor):
         while len(self.strategiesChonksQueue) == 0:
             # time to get more work
+            if len(self.filenames) == 0:
+                # no more files left - out of work 
+                return None
             fullFilename = self.filenames.pop()
             self.currentWorkingFilename, ticker, datestr = getInfoFromFullFilename(fullFilename)
             self.strategiesChonksQueue = splitListIntoChonks(getStrategiesNotProcessed(ticker, datestr, cursor), WorkManager.STRATEGY_CHONK_SIZE)
