@@ -89,33 +89,17 @@ class TDAMeritrade:
         
         self.loop = asyncio.get_event_loop()
         
-        connectAttempts = 0
-        prevConnectAttemptTime = None
-        while connectAttempts < 5:
-            print("beginning of TDA connect loop...")
+        # Start connection and get client connection protocol
+        self.connection = self.loop.run_until_complete(self.client.connect(socketOpenURL))
+        
+        # Start listener and heartbeat 
+        tasks = [asyncio.ensure_future(self.client.receiveMessage(self.connection)),
+                asyncio.ensure_future(self.client.sendMessage(login_encoded)),
+                asyncio.ensure_future(self.client.receiveMessage(self.connection)),
+                asyncio.ensure_future(self.client.sendMessage(data_encoded)),
+                asyncio.ensure_future(self.client.receiveMessage(self.connection))]
 
-            nowTime = datetime.datetime.now()
-            if prevConnectAttemptTime != None:
-                if nowTime - prevConnectAttemptTime > datetime.timedelta(minutes=1): # if the last attempt was long enough ago, reset attempts 
-                    connectAttempts = 0
-                else:
-                    connectAttempts += 1
-            prevConnectAttemptTime = nowTime
-
-            # Start connection and get client connection protocol
-            self.connection = self.loop.run_until_complete(self.client.connect(socketOpenURL))
-            
-            # Start listener and heartbeat 
-            tasks = [asyncio.ensure_future(self.client.receiveMessage(self.connection)),
-                    asyncio.ensure_future(self.client.sendMessage(login_encoded)),
-                    asyncio.ensure_future(self.client.receiveMessage(self.connection)),
-                    asyncio.ensure_future(self.client.sendMessage(data_encoded)),
-                    asyncio.ensure_future(self.client.receiveMessage(self.connection))]
-
-            self.loop.run_until_complete(asyncio.wait(tasks))
-
-            print("end of TDA connect loop...")
-            time.sleep(5)
+        self.loop.run_until_complete(asyncio.wait(tasks))
 
     
 def getPriceHistoryJson(ticker):
