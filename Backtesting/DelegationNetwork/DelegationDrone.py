@@ -11,7 +11,7 @@ from Backtesting.SimulationManager import SimulationManager
 import CredentialsConfig.server_auth_config as db_auth_config
 
 
-def runDrone(strategies, filename, ticker):
+def runDrone(strategies, filename, ticker, cursor, connection):
     # filename is the file itself without directories 
     datestr = filename[filename.find('__')+2:filename.find('.csv')]
 
@@ -21,27 +21,23 @@ def runDrone(strategies, filename, ticker):
     config.simulating = True
     Strategy.outputEnabled = False 
 
-    try:
-        with connect(
-            host=db_auth_config.host,
-            user=db_auth_config.userDB,
-            password=db_auth_config.passwordDB,
-            database=db_auth_config.database
-        ) as connection, connection.cursor() as cursor:
-            # get history 
-            selectHistoryResult = getHistory(filename, cursor, ticker)
+    # get history 
+    selectHistoryResult = getHistory(filename, cursor, ticker)
 
-            simulationManager = SimulationManager(ticker, filename, datestr, selectHistoryResult, BacktestBatchInsertManager(connection, cursor))
+    simulationManager = SimulationManager(ticker, filename, datestr, selectHistoryResult, BacktestBatchInsertManager(connection, cursor))
 
-            for stratinfo in strategies:
-                simulationManager.calculateAndInsertResult(stratinfo)
+    lg = str(len(strategies))
+    ct = 0
+    for stratinfo in strategies:
+        ct += 1
+        print("strategy " + str(ct) + "/" + lg)
+        simulationManager.calculateAndInsertResult(stratinfo)
 
-            # commit after to catch any leftovers that were processed
-            simulationManager.finish()
+    # commit after to catch any leftovers that were processed
+    simulationManager.finish()
 
 
-    except Error as e:
-        print("error with db: ", e)
+    
 
 
 
