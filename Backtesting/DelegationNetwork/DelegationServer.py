@@ -36,6 +36,9 @@ def clientConnectionThreadHandler(connection, dbCursor):
     connection.close()
     print("connection closed")
 
+    if outOfWork:
+        exit()
+
 def runDelegationServer(dbCursor):
     serverSocket = socket.socket()
     host = server_config.host
