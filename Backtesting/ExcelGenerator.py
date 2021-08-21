@@ -1,7 +1,7 @@
 import xlsxwriter 
 import config 
 from mysql.connector import connect, Error 
-import CredentialsConfig.db_auth_config as db_auth_config
+import CredentialsConfig.server_auth_config as db_auth_config
 
 class ExcelGenerator: 
 
@@ -13,8 +13,8 @@ class ExcelGenerator:
         print("Generating report for " + self.ticker)
         with connect(
             host=db_auth_config.host,
-            user=db_auth_config.user,
-            password=db_auth_config.password,
+            user=db_auth_config.userDB,
+            password=db_auth_config.passwordDB,
             database=db_auth_config.database
         ) as connection, connection.cursor() as cursor:
             # get top strategies ordered by highest profit (highest profit out of all options variations of the strategy)

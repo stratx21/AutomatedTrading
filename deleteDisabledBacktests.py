@@ -1,13 +1,13 @@
 from mysql.connector import connect
 import DataManagement.Database.StrategyTable as StrategyTable
 import DataManagement.Database.BacktestTable as BacktestTable
-import CredentialsConfig.db_auth_config as db_auth_config
+import CredentialsConfig.server_auth_config as db_auth_config
 
 if __name__ == '__main__':
     with connect(
             host=db_auth_config.host,
-            user=db_auth_config.user,
-            password=db_auth_config.password,
+            user=db_auth_config.userDB,
+            password=db_auth_config.passwordDB,
             database=db_auth_config.database
         ) as connection, connection.cursor() as cursor:
         toDelete = StrategyTable.getDisabledStrategyIds(cursor)
