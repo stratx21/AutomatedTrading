@@ -89,7 +89,7 @@ def runDelegationClient(id):
 
     doneTime = time.time()
     elapsedSeconds = int(doneTime - start_timer)
-    print("Client finished!", 
+    print("Drone", id, "finished!", 
         "elapsed time:", 
         secondsToTimeDescription(elapsedSeconds))
 
