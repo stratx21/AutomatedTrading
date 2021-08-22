@@ -74,8 +74,8 @@ class WebClient():
             except exceptions.ConnectionClosed:            
                 print('Connection with server closed')
                 break
-            # except:
-            #     print("error in receive message: ", sys.exc_info()[0])
+            except:
+                print("error in receive message: ", sys.exc_info()[0])
 
                 
     async def heartbeat(self, connection):
