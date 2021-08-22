@@ -71,13 +71,14 @@ def runDelegationClient(id):
 
                 responseDict = json.loads(response)
                 strats = responseDict[DTS.STRATEGIES_KEY]
-
                 filename = responseDict[DTS.FILENAME_KEY]
-                print("Drone", id, "starting new work on", str(len(strats)), "strategies")
+                ticker = getTickerFromFilename(filename)
+                
+                print("Drone", id, "starting new work on", str(len(strats)), "strategies for", ticker)
                 runDrone(
                     strats,
                     filename,
-                    getTickerFromFilename(filename),
+                    ticker,
                     cursor,
                     connection)
 
