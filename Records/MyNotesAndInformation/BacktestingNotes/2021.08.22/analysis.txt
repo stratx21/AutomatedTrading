@@ -1,29 +1,21 @@
-try to run: (analyzed 8/12)
-TQQQ 15 BBMR_MAS 35 +TSFHP 0.6 +stopAt -1%
-SOXL 10 BBR_v32W +TSFH 30
-FNGU 15 renko_smi 3 5   +stopAt -2% +OCO 30 60
-UCO 15 renko_wcsmi_vs 25 2    
-SPXL 20 renko_wcsmi_vs 35 2    
-GUSH 20 renko_bah
-VDE 15 BBMR_MAS 30 +OCO 30 60
-VDE 10 renko_con_vs 9 1       : 
-MARA 20 BBR_v32W               :
-
-
-add ETSY to stream ? 
-
+F:
+cd AutomatedTrading
+python main.py
+stream add AAPL AMD ARKK BA ETSY FAS FNGU GUSH JNUG LABU MARA NAIL SOXL SPXL TNA TQQQ UCO UVXY VDE
+add TQQQ 15 bbmr_mas 35  
+add FNGU 15 renko_smi 3 5
+add UCO 15 renko_wcsmi_vs 25 2
+add SPXL 20 renko_wcsmi_vs 35 2
+add GUSH 20 renko_bah
+add SOXL 10 bbr_v32w
+add VDE 15 bbmr_mas 30
+start
 opt TQQQ stopAtPercentLoss 1
-
-~ SPXL secondary: 20 renko_vbs 1 2  (consistently good through past backtestings as of 7/9)
-~ TQQQ secondary: 20 renko_vbs 1 1 (pretty consistent line)
-~ GUSH secondary: 25 renko_vbs 2 2 (higher gains, maybe better line than renko_bah?)
-~? FNGU : renko_10 smi 3 5
-~? SOXL 10 renko_wcsmi_vs 30 3 : has humps, but consistently up
-~? TQQQ 20 range_cav 15
-
-[7/27: I bet SOXL 10 renko_wc_vs 20 3 will go up tomorrow/soon]
-
-check out:
-- TQQQ 20 renko_sa 4
-
-stream add VDE TQQQ SPXL UCO MARA SOXL FNGU UVXY LABU GUSH JNUG VXX
+opt TQQQ TSFHP 0.6
+opt SOXL stopAtPercentLoss 1
+opt FNGU stopAtPercentLoss 2
+opt FNGU OCO 30 60
+opt SOXL TSFH 30
+opt SPXL OCO 50 100
+opt VDE OCO 30 60
+status
