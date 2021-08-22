@@ -39,6 +39,11 @@ def clientConnectionThreadHandler(connection, dbCursor):
     if outOfWork:
         exit()
 
+def runInitWorkUpdate(dbCursor):
+    threadLock.acquire()
+    workManager.updateWorkQueue(dbCursor)
+    threadLock.release()
+
 def runDelegationServer(dbCursor):
     serverSocket = socket.socket()
     host = server_config.host
@@ -48,6 +53,8 @@ def runDelegationServer(dbCursor):
     except socket.error as e:
         print("Error binding host and port:", str(e))
         return 
+
+    threading.Thread(target = runInitWorkUpdate, args = (dbCursor, )).start()
 
     print("Running server at " + host + ":" + str(port))
     print(" Waiting for connections...")

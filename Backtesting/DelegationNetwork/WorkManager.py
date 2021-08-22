@@ -8,7 +8,7 @@ import tkinter.filedialog as filedialog
 import Backtesting.DelegationNetwork.DelegationTransferStrings as DTS
 
 class WorkManager:
-    STRATEGY_CHONK_SIZE = 5000
+    STRATEGY_CHONK_SIZE = 1000
 
     def __init__(self):
         root = tk.Tk()
@@ -34,26 +34,29 @@ class WorkManager:
         self.currentWorkingFilename = None 
 
     def getWorkJson(self, cursor):
+        if self.updateWorkQueue(cursor):
+            return json.dumps({
+                DTS.STRATEGIES_KEY: self.strategiesChonksQueue.pop(),
+                DTS.FILENAME_KEY: self.currentWorkingFilename
+            })
+        else:
+            return None 
+
+    # returns a bool for queue has data 
+    def updateWorkQueue(self, cursor):
         while len(self.strategiesChonksQueue) == 0:
             # time to get more work
             if len(self.filenames) == 0:
                 # no more files left - out of work 
-                return None
+                return False
             fullFilename = self.filenames.pop()
             self.currentWorkingFilename, ticker, datestr = getInfoFromFullFilename(fullFilename)
             self.strategiesChonksQueue = splitListIntoChonks(getStrategiesNotProcessed(ticker, datestr, cursor), WorkManager.STRATEGY_CHONK_SIZE)
 
             # print("queue: ", self.strategiesChonksQueue)
             print(str(len(self.filenames)) + "/" + self.startingFilesCountStr + " files remaining to process.")
-
-        return json.dumps({
-            DTS.STRATEGIES_KEY: self.strategiesChonksQueue.pop(),
-            DTS.FILENAME_KEY: self.currentWorkingFilename
-        })
-
-
     
-
+        return True 
 
         
 
