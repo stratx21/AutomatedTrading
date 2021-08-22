@@ -1,5 +1,6 @@
 import json
 import sys
+import os
 import CredentialsConfig.server_auth_config as server_auth_config
 import Backtesting.DelegationNetwork.server_config as delegation_server_config
 import Backtesting.DelegationNetwork.DelegationTransferStrings as DTS
@@ -9,6 +10,7 @@ import socket
 import time 
 import datetime
 import struct
+import shutil
 from Tools.StringTools import getTickerFromFilename, secondsToTimeDescription
 
 BUFFER_SIZE = 4096
@@ -73,6 +75,11 @@ def runDelegationClient(id):
                 strats = responseDict[DTS.STRATEGIES_KEY]
                 filename = responseDict[DTS.FILENAME_KEY]
                 ticker = getTickerFromFilename(filename)
+
+                # copy over file if it isn't there already 
+                if not os.path.isfile(server_auth_config.tempStreamCopiesDirectory + filename):
+                    print("copying " + server_auth_config.streamRecordsDirectory + filename + " to " + server_auth_config.tempStreamCopiesDirectory)
+                    shutil.copy(server_auth_config.streamRecordsDirectory + filename, server_auth_config.tempStreamCopiesDirectory)
                 
                 print("Drone", id, "starting new work on", str(len(strats)), "strategies for", ticker)
                 runDrone(
