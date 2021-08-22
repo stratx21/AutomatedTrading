@@ -8,7 +8,7 @@ import tkinter.filedialog as filedialog
 import Backtesting.DelegationNetwork.DelegationTransferStrings as DTS
 
 class WorkManager:
-    STRATEGY_CHONK_SIZE = 5000
+    STRATEGY_CHONK_SIZE = 500
 
     def __init__(self):
         root = tk.Tk()
