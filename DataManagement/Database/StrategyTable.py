@@ -62,10 +62,9 @@ def getStrategiesNotProcessed(ticker, datestr, cursor):
             SELECT null
             FROM trading.backtest as backtest
             WHERE strategy.id = backtest.strategy_id
-                AND strategy.disabled = 0
                 AND backtest.ticker = %s
                 AND backtest.date = %s
-        )""",
+        ) AND strategy.disabled = 0""",
         (ticker, datestr))
     return cursor.fetchall()
 

@@ -14,6 +14,8 @@ class WorkManager:
         root = tk.Tk()
         self.filenames = list(filedialog.askopenfilenames(parent=root, title='Choose a file'))
         root.withdraw() # make window go away 
+
+        self.startingFilesCountStr = str(len(self.filenames))
         
         tickers = []
         print("Determining tickers...")
@@ -41,7 +43,8 @@ class WorkManager:
             self.currentWorkingFilename, ticker, datestr = getInfoFromFullFilename(fullFilename)
             self.strategiesChonksQueue = splitListIntoChonks(getStrategiesNotProcessed(ticker, datestr, cursor), WorkManager.STRATEGY_CHONK_SIZE)
 
-            print(str(len(self.filenames)), "files remaining to process.")
+            # print("queue: ", self.strategiesChonksQueue)
+            print(str(len(self.filenames)) + "/" + self.startingFilesCountStr + " files remaining to process.")
 
         return json.dumps({
             DTS.STRATEGIES_KEY: self.strategiesChonksQueue.pop(),
