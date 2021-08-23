@@ -9,7 +9,7 @@ if __name__ == '__main__':
     try:
         processCount = int(sys.argv[1])
 
-        if not os.path.exists(server_auth_config.tempStreamCopiesDirectory):
+        if server_auth_config.tempStreamCopiesDirectory != None and not os.path.exists(server_auth_config.tempStreamCopiesDirectory):
             os.makedirs(server_auth_config.tempStreamCopiesDirectory)
 
         for i in range(processCount):

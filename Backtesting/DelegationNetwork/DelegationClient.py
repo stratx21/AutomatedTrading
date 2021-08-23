@@ -77,10 +77,10 @@ def runDelegationClient(id):
                 ticker = getTickerFromFilename(filename)
 
                 # copy over file if it isn't there already 
-                if not os.path.isfile(server_auth_config.tempStreamCopiesDirectory + filename):
+                if server_auth_config.tempStreamCopiesDirectory != None and not os.path.isfile(server_auth_config.tempStreamCopiesDirectory + filename):
                     print("copying " + server_auth_config.streamRecordsDirectory + filename + " to " + server_auth_config.tempStreamCopiesDirectory)
                     shutil.copy(server_auth_config.streamRecordsDirectory + filename, server_auth_config.tempStreamCopiesDirectory)
-                
+
                 print("Drone", id, "starting new work on", str(len(strats)), "strategies for", ticker)
                 runDrone(
                     strats,

@@ -16,7 +16,10 @@ def runDrone(strategies, filename, ticker, cursor, connection):
     datestr = filename[filename.find('__')+2:filename.find('.csv')]
 
     # now append directory: 
-    filename = db_auth_config.tempStreamCopiesDirectory + filename 
+    if db_auth_config.tempStreamCopiesDirectory != None:
+        filename = db_auth_config.tempStreamCopiesDirectory + filename 
+    else:
+        filename = db_auth_config.streamRecordsDirectory + filename
 
     config.simulating = True
     Strategy.outputEnabled = False 
