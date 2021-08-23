@@ -7,7 +7,7 @@ def insertStrategyIntoDB(name, aggregation, param1, param2, optionsString, curso
         INSERT INTO trading.strategy (name, aggregation, param1, param2, options_str)
         SELECT %s, %s, %s, %s, %s
         WHERE NOT EXISTS(
-            SELECT id \
+            SELECT strat.id \
             FROM trading.strategy as strat \
             WHERE \
                 strat.name = %s \
