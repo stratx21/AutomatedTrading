@@ -11,7 +11,7 @@ def getAllTickersFromDb():
     ) as connection, connection.cursor() as cursor:
         cursor.execute("\
             SELECT DISTINCT ticker \
-            FROM trading.backtesting_results")
+            FROM trading.backtest")
 
         return cursor.fetchall()
     return []
