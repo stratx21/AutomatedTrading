@@ -184,6 +184,12 @@ class ExcelGenerator:
                     )
                     summary_row_start += 1
 
+                    worksheet.write_row(
+                        summary_column + str(summary_row_start),
+                        ["~trades/Week:", tradesCount / (len(backtestEntries)/5.0)]
+                    )
+                    summary_row_start += 1
+
                     ##############################
                     # create chart from daily profit so far data:
                     chart = self.workbook.add_chart({'type': 'line'})
