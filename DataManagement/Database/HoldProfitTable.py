@@ -15,51 +15,59 @@ def rowExists(cursor, datestr, ticker):
         (ticker, datestr))
     return len(cursor.fetchall())
 
-def updateHoldProfitTable(filenames):
-    with connect(
-        host=db_auth_config.host,
-        user=db_auth_config.userDB,
-        password=db_auth_config.passwordDB,
-        database=db_auth_config.database
-    ) as connection, connection.cursor() as cursor:
-        config.simulating = True 
-        query = "INSERT IGNORE INTO trading.hold_profit (ticker, date, profit) VALUES "
-        totalFileCountStr = str(len(filenames))
-        count = 0
-        for filename in filenames:
-            count += 1
-            print("processing file", str(count) + "/" + totalFileCountStr)
-            _, ticker, datestr = getInfoFromFullFilename(filename)
-            if not rowExists(cursor, datestr, ticker):
-                # needs to be calculated and inserted
-                startPrice = None  
-                endPrice = None
-                buy_start = config.getBuyStart(ticker)
-                buy_stop = config.getBuyStop(ticker)
-                lastLast = None 
-                with open(filename, newline='') as csvfile:
-                    reader = csv.DictReader(csvfile)
-                    for row in reader: 
-                        dt = datetime.datetime.fromtimestamp(float(row['Timestamp'])/1000.0)
-                        config.simulatingTimeStamp = dt
-                        if row['Last'] != None and row['Last'] != "":
-                            lastLast = float(row['Last'])
+def runUpdateInternal(filenames, connection, cursor):
+    config.simulating = True 
+    query = "INSERT IGNORE INTO trading.hold_profit (ticker, date, profit) VALUES "
+    totalFileCountStr = str(len(filenames))
+    count = 0
+    for filename in filenames:
+        count += 1
+        # print("processing file", str(count) + "/" + totalFileCountStr)
+        _, ticker, datestr = getInfoFromFullFilename(filename)
+        if not rowExists(cursor, datestr, ticker):
+            # needs to be calculated and inserted
+            startPrice = None  
+            endPrice = None
+            # buy_start = config.getBuyStart(ticker)
+            # buy_stop = config.getBuyStop(ticker)
+            lastLast = None 
+            with open(filename, newline='') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader: 
+                    dt = datetime.datetime.fromtimestamp(float(row['Timestamp'])/1000.0)
+                    config.simulatingTimeStamp = dt
+                    if row['Last'] != None and row['Last'] != "":
+                        lastLast = float(row['Last'])
 
-                        isInTimeSpan = TimeManagement.withinBuyingTimeConstraint(buy_start, buy_stop)
-                        if startPrice == None and isInTimeSpan:
-                            startPrice = lastLast
-                        if not isInTimeSpan and endPrice == None and startPrice != None:
-                            endPrice = lastLast 
-
-                    if endPrice == None:
+                    isInTimeSpan = TimeManagement.withinBuyingTimeConstraint(config.MARKET_OPEN, config.MARKET_CLOSE)
+                    if startPrice == None and isInTimeSpan:
+                        startPrice = lastLast
+                    if not isInTimeSpan and endPrice == None and startPrice != None:
                         endPrice = lastLast 
 
-                if startPrice == None or endPrice == None:
-                    print("error: startPrice:", str(startPrice), "endPrice:", str(endPrice))
-                else:
-                    query += " (\"" + ticker + "\",\"" + datestr + "\"),"
+                if endPrice == None:
+                    endPrice = lastLast 
 
-        # remove trailing comma 
-        query = query[:-1]
-        cursor.execute(query)
-        connection.commit()
+            if startPrice == None or endPrice == None:
+                print("error: startPrice:", str(startPrice), "endPrice:", str(endPrice))
+            else:
+                query += " (\"" + ticker + "\",\"" + datestr + "\"," + str(endPrice - startPrice) + "),"
+
+    # remove trailing comma 
+    query = query[:-1]
+    # print("query:", query)
+    cursor.execute(query)
+    connection.commit()
+    print("finished updating hold profit table.")
+
+def updateHoldProfitTable(filenames, connection = None, cursor = None):
+    if connection != None and cursor != None:
+        runUpdateInternal(filenames, connection, cursor)
+    else:
+        with connect(
+            host=db_auth_config.host,
+            user=db_auth_config.userDB,
+            password=db_auth_config.passwordDB,
+            database=db_auth_config.database
+        ) as connection, connection.cursor() as cursor:
+            runUpdateInternal(filenames, cursor, connection)

@@ -12,7 +12,7 @@ class WorkManager:
 
     def __init__(self):
         root = tk.Tk()
-        self.filenames = list(filedialog.askopenfilenames(parent=root, title='Choose a file'))
+        self.originalFilenames = self.filenames = list(filedialog.askopenfilenames(parent=root, title='Choose a file'))
         root.withdraw() # make window go away 
 
         self.startingFilesCountStr = str(len(self.filenames))
@@ -32,6 +32,9 @@ class WorkManager:
 
         self.strategiesChonksQueue = []
         self.currentWorkingFilename = None 
+
+    def getAllFilenames(self):
+        return self.originalFilenames
 
     def getWorkJson(self, cursor):
         if self.updateWorkQueue(cursor):

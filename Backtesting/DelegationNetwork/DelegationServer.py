@@ -1,3 +1,4 @@
+from DataManagement.Database.HoldProfitTable import updateHoldProfitTable
 from Backtesting.DelegationNetwork.WorkManager import WorkManager
 import Backtesting.DelegationNetwork.server_config as server_config
 import socket
@@ -39,12 +40,16 @@ def clientConnectionThreadHandler(connection, dbCursor):
     if outOfWork:
         exit()
 
-def runInitWorkUpdate(dbCursor):
+def runInitHoldProfitTableUpdate(connection, dbCursor):
+    updateHoldProfitTable(workManager.getAllFilenames(), dbCursor)
+
+def runInitWorkUpdate(connection, dbCursor):
     threadLock.acquire()
     workManager.updateWorkQueue(dbCursor)
     threadLock.release()
+    runInitHoldProfitTableUpdate(connection, dbCursor)
 
-def runDelegationServer(dbCursor):
+def runDelegationServer(dbConnection, dbCursor):
     serverSocket = socket.socket()
     host = server_config.host
     port = server_config.port
@@ -54,7 +59,7 @@ def runDelegationServer(dbCursor):
         print("Error binding host and port:", str(e))
         return 
 
-    threading.Thread(target = runInitWorkUpdate, args = (dbCursor, )).start()
+    threading.Thread(target = runInitWorkUpdate, args = (dbConnection, dbCursor)).start()
 
     print("Running server at " + host + ":" + str(port))
     print(" Waiting for connections...")

@@ -11,7 +11,7 @@ if __name__ == '__main__':
             database=db_auth_config.database
         ) as connection:
             with connection.cursor() as cursor:
-                DelegationServer.runDelegationServer(cursor)
+                DelegationServer.runDelegationServer(connection, cursor)
 
     except Error as e:
         print("error with db: ", e)
