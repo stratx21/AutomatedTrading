@@ -92,7 +92,7 @@ def runDelegationClient(id):
     except Error as e:
         print("error with db: ", e)
     except: 
-        print("ERROR: delegation client non-db error:", sys.exc_info()[0])
+        print("ERROR: delegation client non-db error:", str(sys.exc_info()[0]))
 
     doneTime = time.time()
     elapsedSeconds = int(doneTime - start_timer)
