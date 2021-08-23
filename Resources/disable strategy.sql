@@ -1,0 +1,1 @@
+update trading.strategy set disabled = 1 where name = "RENKO_WCSMI_VS" or aggregation = 3;
