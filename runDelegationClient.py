@@ -13,7 +13,7 @@ if __name__ == '__main__':
             os.makedirs(server_auth_config.tempStreamCopiesDirectory)
 
         for i in range(processCount):
-            print("starting process", str(i))
+            print("starting process", str(i+1))
             Process(target = runDelegationClient, args=(str(i),)).start()
             sleep(1)
 
