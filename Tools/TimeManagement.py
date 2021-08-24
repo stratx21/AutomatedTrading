@@ -23,7 +23,7 @@ def currentTimeIsBefore(is_before):
 
 
 def pastForceSellEOD():
-    currentTimeIsAfter(config.AUTOSELL_FOR_CLOSE)
+    return currentTimeIsAfter(config.AUTOSELL_FOR_CLOSE)
 
 def withinBuyingTimeConstraint(start, stop):
     return currentTimeIsAfter(start) and currentTimeIsBefore(stop)
