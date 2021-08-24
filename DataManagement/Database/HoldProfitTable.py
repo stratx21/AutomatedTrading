@@ -70,7 +70,7 @@ def updateHoldProfitTable(filenames, connection = None, cursor = None):
             password=db_auth_config.passwordDB,
             database=db_auth_config.database
         ) as connection, connection.cursor() as cursor:
-            runUpdateInternal(filenames, cursor, connection)
+            runUpdateInternal(filenames, connection, cursor)
 
 
 
