@@ -71,3 +71,14 @@ def updateHoldProfitTable(filenames, connection = None, cursor = None):
             database=db_auth_config.database
         ) as connection, connection.cursor() as cursor:
             runUpdateInternal(filenames, cursor, connection)
+
+
+
+def getHoldProfitForTicker(ticker, cursor):
+    cursor.execute("""
+        SELECT *
+        FROM trading.hold_profit
+        WHERE ticker = %s
+        ORDER BY date""", 
+        (ticker,))
+    return cursor.fetchall()

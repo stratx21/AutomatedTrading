@@ -1,3 +1,4 @@
+from DataManagement.Database.HoldProfitTable import getHoldProfitForTicker
 import xlsxwriter 
 import config 
 from mysql.connector import connect, Error 
@@ -17,6 +18,11 @@ class ExcelGenerator:
             password=db_auth_config.passwordDB,
             database=db_auth_config.database
         ) as connection, connection.cursor() as cursor:
+            # first, generate the [HOLD] page from hold profit table 
+            holdProfitData = getHoldProfitForTicker(self.ticker, cursor)
+            
+            
+            
             # get top strategies ordered by highest profit (highest profit out of all options variations of the strategy)
             cursor.execute("\
                 SELECT result.strat_name, result.aggregation, result.param1, result.param2 \
