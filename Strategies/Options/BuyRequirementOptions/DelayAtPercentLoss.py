@@ -32,7 +32,7 @@ class DelayAtPercentLoss(Option):
                 self.disable()
 
         # then return the current state: 
-        return self.buyingDisabled
+        return not self.buyingDisabled
 
     def enable(self):
         self.canBuyAgainAt = None
